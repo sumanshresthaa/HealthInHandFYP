@@ -1,0 +1,2 @@
+http://10.0.2.2:80  for emulator
+cmd-> ipconfig -> wireless lan ipv4 address -> put that url in base url

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "649168747472",
+    "project_id": "health-in-hand-8067a",
+    "storage_bucket": "health-in-hand-8067a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:649168747472:android:5d1e6e6cb67362446a97d5",
+        "android_client_info": {
+          "package_name": "com.herald.health_in_hand"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "649168747472-12t0blom6cq56ekrumigljeee4dsg626.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyxaemccKLxt9DLIXdy0K28zfMXXkgAKo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "649168747472-12t0blom6cq56ekrumigljeee4dsg626.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
