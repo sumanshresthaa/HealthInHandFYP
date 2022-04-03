@@ -268,3 +268,53 @@ class SearchTextField extends StatelessWidget {
     );
   }
 }
+
+
+//Text form field is the extracted widget from login which might also be used in register and other text field
+class TextFormFieldForLoginRegister extends StatelessWidget {
+  const TextFormFieldForLoginRegister({this.label,this.imageName,this.textFieldDesignType, this.textFieldType}) : super();
+  final String? label;
+  final String? imageName;
+  final String? textFieldDesignType;
+  final String? textFieldType;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        //For adding shadow in the back of text field
+          boxShadow: [
+            BoxShadow(
+                blurRadius: 8,
+                spreadRadius: 1,
+                offset: Offset(0, 1),
+                color: Color(0xff000000).withOpacity(0.1)
+            ),
+          ]
+      ),
+      child: TextFormField(
+        cursorColor: Colors.black,
+        obscureText: textFieldType == "password" ? true : false,
+        decoration:  InputDecoration(
+          label:  Text(label ?? 'Nothing to Show', style:  TextStyle(
+            fontFamily: 'NutinoSansReg',
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            color: Color(0xff777777),
+          ),),
+          // hintText: 'enter username',
+          prefixIcon: Padding(
+            padding: const EdgeInsets.only(left: 26, right: 17),
+            child: Image.asset(imageName ?? 'failed', width: 20),
+          ),
+          filled: true,
+          fillColor: Colors.white, //To color the text field do these
+          border:  UnderlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.all(Radius.circular(4)),
+          ),
+        ),
+
+      ),
+    );
+  }
+}

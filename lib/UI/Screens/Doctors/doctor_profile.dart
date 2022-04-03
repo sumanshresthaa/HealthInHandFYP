@@ -14,9 +14,10 @@ import '../../../ViewModel/changenotifier.dart';
 import '../../Chatroom/conversation_screen.dart';
 
 class DoctorProfile extends StatefulWidget {
-  DoctorProfile({this.index, this.details});
+  DoctorProfile({this.index, this.details, this.doctorImage});
   final index;
   final details;
+  final doctorImage;
 
   @override
   State<DoctorProfile> createState() => _DoctorProfileState();
@@ -74,18 +75,22 @@ class _DoctorProfileState extends State<DoctorProfile> {
 
               ],
             ),
+            SizedBox(height: 30,),
+            Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
 
+                image: DecorationImage(
+                    image: AssetImage(widget.doctorImage),
+                    fit: BoxFit.fill
+                ),
+              ),
+            ),
             Expanded(
               child: ListView(
                 children: [
-                  ClipOval(
-                    child: Image.asset(
-                      'assets/profile.png',
-                      width: 50,
-                      height: 50,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
                   SizedBox(height: 10,),
                   Center(child: Text('Dr ${widget.details[widget.index].name}', style: kStyleDoctorName,)),
                   SizedBox(height: 5,),

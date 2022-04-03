@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import '../Extracted Widgets/showdialog.dart';
 import '../LoginPermission/loginpermission.dart';
+import '../Screens/Arthritis Screens/athritis_home.dart';
 import '../Screens/BookAppointment/appointment.dart';
-import '../Screens/HIV Screens/athritis_home.dart';
 import '../Settings/settings.dart';
 
 

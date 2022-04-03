@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../Textstyle/constraints.dart';
 
@@ -9,6 +10,7 @@ class NextBtn extends StatelessWidget {
 
   NextBtn(this.onPress);
   final onPress;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -164,6 +166,42 @@ class WhiteButton extends StatelessWidget {
               color: Color(0xff333333),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+
+//Button for going next in appointment
+class AppointmentButton extends StatelessWidget {
+  const AppointmentButton({required this.text, this.onPress});
+
+  final text;
+  final onPress;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        height: 49,
+        child: ElevatedButton(
+          onPressed: onPress,
+          child: Text(
+            text,
+            style: TextStyle(
+              fontFamily: 'Lato',
+              fontSize: 12.sp,
+              color: Colors.white,
+              fontWeight: FontWeight.w300,
+            ),
+          ),
+          style: ButtonStyle(
+              backgroundColor:
+              MaterialStateProperty.all(const Color(0xff00A6FB)),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4)))),
         ),
       ),
     );

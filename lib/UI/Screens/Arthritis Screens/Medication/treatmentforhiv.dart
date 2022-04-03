@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:api_cache_manager/utils/cache_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:health_in_hand/UI/Screens/HIV%20Screens/Medication/treatmentforhivlayout.dart';
+import 'package:health_in_hand/UI/Screens/Arthritis%20Screens/Medication/treatmentforhivlayout.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../Models/get_details_of_HivMedication.dart';

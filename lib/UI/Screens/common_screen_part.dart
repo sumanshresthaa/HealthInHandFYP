@@ -3,6 +3,7 @@ import 'package:health_in_hand/UI/Chatroom/chat_room.dart';
 import 'package:health_in_hand/UI/Login/login.dart';
 import 'package:sizer/sizer.dart';
 import '../../Textstyle/constraints.dart';
+import 'BookAppointment/appointment.dart';
 import 'Doctors/doctor_list.dart';
 class HomeDesignAppBar extends StatelessWidget {
   const HomeDesignAppBar({Key? key}) : super(key: key);
@@ -11,13 +12,18 @@ class HomeDesignAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 50,),
+        SizedBox(height: 40,),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Welcome, Suman', style: kStyleHomeWelcome),
+              Column(
+                children: [
+                  Text('Welcome, Suman', style: kStyleHomeWelcome),
+
+                ],
+              ),
               Row(
                 children: [
                   Container(
@@ -54,28 +60,37 @@ class HomeDesignAppBar extends StatelessWidget {
 }
 
 class HomeDesign extends StatelessWidget {
-HomeDesign({this.imageURL});
+HomeDesign({this.imageURL, this.specialities, this.type});
 final imageURL;
+final specialities;
+final type;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(
-                  12.0)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.purple.withOpacity(0.2),
-                  blurRadius: 5,
-                  offset: Offset(
-                      0, 2), // changes position of shadow
-                ),
-              ],
-            ),
-            child: Image.asset(
-              '$imageURL',)),
+        GestureDetector(
+          onTap: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context){
+              return BookAppointment();
+            }));
+          },
+          child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(
+                    12.0)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.purple.withOpacity(0.2),
+                    blurRadius: 5,
+                    offset: Offset(
+                        0, 2), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: Image.asset(
+                '$imageURL',)),
+        ),
         /*CarouselSlider.builder(
                       itemCount: carouselHiv.length,
                       itemBuilder: (context, index, realIndex){
@@ -117,7 +132,7 @@ final imageURL;
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Joint Related Problems? ',
+                      Text(type == 'arthritis' ? 'Joint Related Problems? ' : 'Lungs related problem',
                         style: kStyleHomeWelcome.copyWith(
                           letterSpacing: 0,),),
                       Text('Find suitable specialist here ',
@@ -163,7 +178,7 @@ final imageURL;
             padding: const EdgeInsets.all(8.0),
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 10,
+                itemCount: specialities.length,
                 shrinkWrap: true,
                 physics: ScrollPhysics(),
                 itemBuilder: (context, int index) {
@@ -205,7 +220,7 @@ final imageURL;
 
                           Column(
                             children: [
-                              Text('Neurology',
+                              Text('${specialities[index]}',
                                 style: kStyleHomeWelcome,),
                               Text('1000 doctors',
                                 style: kStyleMuseoTextContent

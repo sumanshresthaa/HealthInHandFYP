@@ -32,6 +32,15 @@ class _DoctorListState extends State<DoctorList> {
     super.initState();
     _doctorList = getApiData();
   }
+
+
+  var doctorImage = [
+    'assets/suyash.jpg',
+    'assets/prashansa.jpg',
+    'assets/ojas.jpg',
+    'assets/prashansa.jpg',
+
+  ];
   @override
   Widget build(BuildContext context) {
 
@@ -105,12 +114,12 @@ class _DoctorListState extends State<DoctorList> {
                               return GestureDetector(
                                 onTap: (){
                                   Navigator.push(context, MaterialPageRoute(builder: (context){
-                                    return DoctorProfile(index: index, details: details);
+                                    return DoctorProfile(index: index, details: details, doctorImage: doctorImage[index]);
                                   }));
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: DoctorDetails(doctorName: doctorName, speciality: speciality, rating: rating,),
+                                  child: DoctorDetails(doctorName: doctorName, speciality: speciality, rating: rating,image: doctorImage, index: index),
                                 ),
                               );
 
@@ -132,10 +141,12 @@ class _DoctorListState extends State<DoctorList> {
 }
 
 class DoctorDetails extends StatelessWidget {
- DoctorDetails({this.doctorName, this.speciality, this.rating});
+ DoctorDetails({this.doctorName, this.speciality, this.rating, this.image, this.index});
  final doctorName;
  final speciality;
  final rating;
+ final image;
+ final index;
 
 
   @override
@@ -160,7 +171,17 @@ class DoctorDetails extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            CircleAvatar(radius: 38, child: Text('S')),
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                    image: AssetImage(image[index]),
+                    fit: BoxFit.cover
+                ),
+              ),
+            ),
             Column(
               children: [
                 FittedBox(child: Text('Dr. $doctorName', style: kStyleDoctorList,)),

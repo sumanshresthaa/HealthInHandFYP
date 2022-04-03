@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../Screens/HIV Screens/athritis_home.dart';
+
+import '../Screens/Arthritis Screens/athritis_home.dart';
 
 class ScrollAppBar extends StatelessWidget {
   final Widget bodypass;
