@@ -13,8 +13,9 @@ import 'NetworkHelper.dart';
 
 //This class downloads all the data from the api using api cache manager
 class ApiData {
-
-  var baseUrl = 'http://10.3.5.59/cms/public';
+  //office 10.3.5.145
+  // home192.168.254.15
+  var baseUrl = 'http://10.3.5.145/cms/public';
   //Details of HIV get api call and download
   Future<DetailsOfHiv> getDetailsOfHivDetails() async {
     var isCacheExist = await APICacheManager().isAPICacheKeyExist(

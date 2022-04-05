@@ -74,7 +74,7 @@ class _HIVTopicState extends State<HIVTopic> {
             color: Color(0xff324F81),
           ),
         ),
-        centerTitle: true,
+        centerTitle: false,
       ),
       endDrawer: Drawer(),
       body: MediaQuery.removePadding(

@@ -45,6 +45,14 @@ class _CovidHomeState extends State<CovidHome> {
   late bool englishLanguage = context.watch<DataProvider>().data;
   ConnectivityResult result = ConnectivityResult.none;
 
+  var covidSpecialities = [
+    'Covid-19',
+    'Asthma ',
+    'Cough',
+    'Bronchitis',
+    'Chest Pain',
+  ];
+
   Future getValidationData() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
@@ -185,7 +193,7 @@ class _CovidHomeState extends State<CovidHome> {
                   child: ListView(
                     shrinkWrap: true,
                     children: [
-                      HomeDesign(imageURL: 'assets/covidhomebook.png'),
+                      HomeDesign(imageURL: 'assets/covidhomebook.png', specialities: covidSpecialities, type: 'covid'),
                       FutureBuilder<DetailsOfCovid>(
                           future: _covidHome,
                           builder: (context, snapshot) {

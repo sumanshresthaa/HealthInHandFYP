@@ -1,8 +1,13 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../FirebaseChat/FirebaseModel/database_methods.dart';
 import '../../FirebaseChat/Services/auth.dart';
+import '../../Models/registerapi.dart';
+import '../../Network/NetworkHelper.dart';
+import '../../Textstyle/constraints.dart';
 import '../Chatroom/chat_room.dart';
 import '../Extracted Widgets/bluetextfield.dart';
 import '../Extracted Widgets/buttons.dart';
@@ -18,6 +23,7 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  bool isLoading = false;
   bool isHiddenPassword = true;
   bool isConfirmHiddenPassword = true;
   bool isChecked = false;
@@ -35,6 +41,7 @@ class _SignupPageState extends State<SignupPage> {
     });
   }
 
+
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneNoController = TextEditingController();
@@ -46,35 +53,59 @@ class _SignupPageState extends State<SignupPage> {
   AuthMethod authMethod = AuthMethod();
   DatabaseMethods databaseMethods = DatabaseMethods();
 
+  //Calls the api and firebase for sign up
+  callApiFirebase() async{
+      //Register Firebase from here
+      var name = nameController.text;
+      var password = passwordController.text;
+      var email = emailController.text;
+      Map<String, String> userInfo = {
+        "name": name,
+        "email": email
+      };
+      NetworkHelper().getRegData(name, email, password); //Upload/Sign up in api
+     /* NetworkHelper networkHelper = NetworkHelper();
+     RegisterApi? registerApi = await networkHelper.getRegData(name, email, password);
+     registerApi*/
+
+      try {
+       await  databaseMethods.uploadUserInfo(userInfo);//Upload in database
+
+       await authMethod.signUpWithEmailAndPassword(email, password).whenComplete(() {
+         return  showSnackBar(
+           context,
+           "Success",
+           Colors.green,
+           Icons.info,
+           "Your account has been registered.",
+         );});
+
+           //Upload in authentication
+
+
+      }
+
+     on FirebaseAuthException catch  (e) {
+       print('Failed with error code: ${e.code}');
+       print(e.message);
+       showSnackBar(
+          context,
+          "Attention",
+          Colors.red,
+          Icons.info,
+          "The email has already been taken.",
+        );
+     }
+      return true;
+
+  }
+
+
 
   signMeUp(){
-
     if (_formKey.currentState!.validate()) {
-      final name = nameController.text;
-      final email = emailController.text;
-      final phoneNo = phoneNoController.text;
-      final password = passwordController.text;
-      final confirmPassword =
-          confirmPasswordController.text;
-      try {
-        //Register Firebase from here
-        Map<String, String> userInfo = {
-          "name" : nameController.text,
-          "email": emailController.text
-        };
-        databaseMethods.uploadUserInfo(userInfo);
-
-        var error;
-
-
-        if (error == false) {
-          showSnackBar(
-            context,
-            "Success",
-            Colors.green,
-            Icons.info,
-            "Your account has been registered.",
-          );
+        try {
+           callApiFirebase();
           Navigator.of(context)
               .pushAndRemoveUntil(
               MaterialPageRoute(
@@ -84,22 +115,14 @@ class _SignupPageState extends State<SignupPage> {
                   (route) => route.isFirst);
 
           print("sucess");
-        }
+
       } catch (e) {
-        showSnackBar(
-          context,
-          "Attention",
-          Colors.red,
-          Icons.info,
-          "The email has already been taken.",
-        );
+
+          print(e);
         print("failed");
       }
     }
-    authMethod.signUpWithEmailAndPassword(emailController.text, passwordController.text).then((value) => print(value));
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-      return ChatRoom();
-    }));
+
 
   }
 
@@ -407,12 +430,61 @@ class _SignupPageState extends State<SignupPage> {
                                 SizedBox(
                                   height: 32.0,
                                 ),
-                                LoginButton('Sign Up', () async {
+                        ElevatedButton(
+                          onPressed: ()async{
+                            if(isLoading) return;
+                            setState(() => isLoading = true);
+                            result =
+                            await Connectivity().checkConnectivity();
+                            if (result == ConnectivityResult.mobile ||
+                            result == ConnectivityResult.wifi) {
+                            await signMeUp();
+                            }
+                            else {
+                              setState(() => isLoading = false);
+
+
+                              showSnackBar(
+                                context,
+                                "Attention",
+                                Color(0xff0D5D40),
+                                Icons.info,
+                                "You must be connected to the internet.",
+                              );
+                            }
+
+
+
+                          },
+                          style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              shape:
+                              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
+                          child: Ink(
+                            decoration: BoxDecoration(
+                                color: Color(0xff0D5D40), borderRadius: BorderRadius.circular(24)),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 40,
+                              alignment: Alignment.center,
+                              child: isLoading ? CircularProgressIndicator.adaptive() : Text(
+                                'Register',
+                                style: TextStyle(
+                                  fontFamily: 'NutinoSansReg',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xffFFFFFF),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                                /*LoginButton('Sign Up', () async {
                                   result =
                                   await Connectivity().checkConnectivity();
                                   if (result == ConnectivityResult.mobile ||
                                       result == ConnectivityResult.wifi) {
-                                    signMeUp();
+                                    signMeUp(); //Firebase registration
                                   } else {
                                     showSnackBar(
                                       context,
@@ -422,7 +494,7 @@ class _SignupPageState extends State<SignupPage> {
                                       "You must be connected to the internet.",
                                     );
                                   }
-                                }),
+                                }),*/
                                 SizedBox(
                                   height: 20.0,
                                 ),

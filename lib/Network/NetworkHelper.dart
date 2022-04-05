@@ -7,11 +7,16 @@ import '../Models/get_login.dart';
 import '../Models/get_logut.dart';
 import '../Models/get_otp.dart';
 import '../Models/get_register.dart';
+import '../Models/registerapi.dart';
 
 
 //Mostly offline api. API LOGIN AND REGISTER. No use right now
 class NetworkHelper {
 
+  // 'http://192.168.254.15/cms/public'; //College
+//office 10.3.5.145
+  // home192.168.254.15
+  var baseUrl = 'http://10.3.5.145/cms/public';
 
   //Very important method called by all the methods in api cache manager class 'api_links.dart'. Return the json Response
   Future<dynamic> getData(String url) async {
@@ -29,30 +34,29 @@ class NetworkHelper {
 
 
 //Post request for registration. Sign up
-  Future<Register>? getRegData(
+  Future<RegisterApi>? getRegData(
     String name,
     String email,
-    String phoneNo,
     String password,
-    String confirmPassword,
   ) async {
     var registerModel;
     http.Response response = await http.post(
-      Uri.parse('http://103.109.230.18/api/register'),
+      Uri.parse('$baseUrl/api/register'),
       headers: {HttpHeaders.contentTypeHeader: "application/json"},
       body: jsonEncode(<String, String>{
         'name': name,
         'email': email,
-        'phone_no': phoneNo,
         'password': password,
-        'confirm_password': confirmPassword,
       }),
     );
+    print(response.statusCode);
+    print("not ok");
+
     if (response.statusCode == 200) {
       var data = response.body;
       var jsonMap = jsonDecode(data);
       print("Register: $jsonMap");
-      registerModel = Register.fromJson(jsonMap);
+      registerModel = RegisterApi.fromJson(jsonMap);
     }
     return registerModel;
   }
@@ -65,13 +69,14 @@ class NetworkHelper {
     var loginModel;
     var lastFinalLoginModel;
     http.Response response = await http.post(
-      Uri.parse('http://103.109.230.18/api/login'),
+      Uri.parse('$baseUrl/api/login'),
       headers: {HttpHeaders.contentTypeHeader: "application/json"},
       body: jsonEncode(<dynamic, dynamic>{
         'email': email,
         'password': password,
       }),
     );
+    print(response.body);
     if (response.statusCode == 200) {
       var data = response.body;
       var jsonMap = jsonDecode(data);

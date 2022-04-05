@@ -102,26 +102,10 @@ class _SelectPurposeState extends State<SelectPurpose> {
                             ModalRoute.withName('/'),
                           );
                         },
-                        englishLanguage ? 'HIV AIDS' : 'एचआईभी',
+                        englishLanguage ? 'Athritis' : 'एचआईभी',
                       ),
                     ),
-                    LangButton(
-                      () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        prefs.setString('choosePreference', 'tuberculosis');
-                        context.read<DataProvider>().purpose('tuberculosis');
 
-                        Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                            /*            settings: RouteSettings(name: '/1'),*/
-                            builder: (context) => BottomNavigationTB(),
-                          ),
-                          ModalRoute.withName('/'),
-                        );
-                      },
-                      englishLanguage ? 'Tuberclosis' : 'क्षयरोग',
-                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: LangButton(

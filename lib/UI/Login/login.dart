@@ -1,10 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../FirebaseChat/FirebaseModel/constant_names.dart';
 import '../../FirebaseChat/FirebaseModel/database_methods.dart';
 import '../../FirebaseChat/FirebaseModel/helperfunction.dart';
 import '../../FirebaseChat/Services/auth.dart';
+import '../../Models/get_login.dart';
+import '../../Models/registerapi.dart';
+import '../../Network/NetworkHelper.dart';
+import '../../ViewModel/changenotifier.dart';
 import '../BottomNavigations/bottom_navigation_covid.dart';
 import '../Chatroom/chat_room.dart';
 import '../Chatroom/conversation_screen.dart';
@@ -27,6 +32,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool isHiddenPassword = true;
   bool isChecked = false;
+  bool isFromThisPage = true;
 
   //For obscure text
   void _togglePasswordView() {
@@ -98,6 +104,8 @@ class _LoginPageState extends State<LoginPage> {
 
 
 
+
+
 //When the sign in button is tapped the following method executes
   //TODO the shared preference doesn't work when log out and credential doesn't match doesn't work
   signIn() async {
@@ -117,7 +125,15 @@ class _LoginPageState extends State<LoginPage> {
           });
           HelperFunctions.saveUserLoggedInSharedPreference(true);
 
-          HelperFunctions.saveUserEmailSharedPreference(email);
+          //checking if the login is working is still necessary
+          Login login =await NetworkHelper().getLoginData(email, password);
+          var error = login.message;
+          var token = login.token;
+          context.read<DataProvider>().personNames(token);
+          print(error);
+          print(token);
+          if(error == null ){
+
           authMethod.signInWithEmailAndPassword(email, password).then((val) {
             if (val != null) {
               widget.isFromProfile ? sendMessage(snapshotUserInfo!.docs[0].get("name")) :
@@ -126,7 +142,7 @@ class _LoginPageState extends State<LoginPage> {
                 return widget.page;
               }));
             }
-          }).onError((error, stackTrace) => credentialDontMatch());
+          }).onError((error, stackTrace) => credentialDontMatch());}
         } catch (e) {
           print("failed");
         }
@@ -143,6 +159,17 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
   }
+
+  //Call in the button to register new user
+/*  Future<void> loginWithApi() async {
+    var email = emailController.text;
+    var password = passwordController.text;
+    RegisterApi? signup = await NetworkHelper()
+        .getRegData(email
+        password);
+    var error = signup!.message;
+
+  }*/
 
   //Shows when login is tapped before letting user to another page
   _showDialog() async {
