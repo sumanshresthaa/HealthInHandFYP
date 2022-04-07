@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
+import '../../Network/NetworkHelper.dart';
 import '../../Network/api_links.dart';
 import '../../Notification/hiv_notification.dart';
 import '../../Notification/tb_notification.dart';
@@ -120,7 +121,10 @@ Navigator.push(context, MaterialPageRoute(builder: (context){
 
                   }),
               SettingsList(englishLanguage ? 'Contributors' : 'योगदनकर्ताहरु ',
-                  Icons.group_outlined, () {}),
+                  Icons.group_outlined, () async {
+
+
+                  }),
             ],
           ),
         ],

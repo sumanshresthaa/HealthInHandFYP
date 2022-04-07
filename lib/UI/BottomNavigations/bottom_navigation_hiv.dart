@@ -4,6 +4,7 @@ import '../Extracted Widgets/showdialog.dart';
 import '../LoginPermission/loginpermission.dart';
 import '../Screens/Arthritis Screens/athritis_home.dart';
 import '../Screens/BookAppointment/appointment.dart';
+import '../Screens/BookAppointment/choose_appointment.dart';
 import '../Settings/settings.dart';
 
 
@@ -17,7 +18,7 @@ class _BottomNavigationHivState extends State<BottomNavigationHiv> {
 
   final _children = [
     HivHome(),
-    BookAppointment(),
+    ChooseAppointment(),
     LoginPermission(),
     Settings(),
   ];

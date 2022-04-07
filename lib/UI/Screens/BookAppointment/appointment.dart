@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:health_in_hand/Network/NetworkHelper.dart';
 import 'package:health_in_hand/Textstyle/constraints.dart';
+import 'package:provider/provider.dart';
 
+import '../../../ViewModel/changenotifier.dart';
 import '../../Extracted Widgets/bluetextfield.dart';
 import '../../Extracted Widgets/buttons.dart';
 
@@ -15,6 +18,7 @@ class _BookAppointmentState extends State<BookAppointment> {
   TimeOfDay selectedTime = TimeOfDay.now();
   final selectDate = TextEditingController();
   var selectTime= TextEditingController();
+  var dateChose;
   TextEditingController name= TextEditingController();
   TextEditingController address= TextEditingController();
 
@@ -24,6 +28,8 @@ class _BookAppointmentState extends State<BookAppointment> {
 
   TextEditingController email= TextEditingController();
   TextEditingController problem= TextEditingController();
+  late var token = Provider.of<DataProvider>(context, listen: false).tokenValue;
+
 
 
 
@@ -50,15 +56,19 @@ class _BookAppointmentState extends State<BookAppointment> {
           type: StepperType.horizontal,
           steps: getSteps(),
           currentStep: currentStep,
-          onStepContinue: (){
+          onStepContinue: () async {
             final isLastStep = currentStep == getSteps().length - 1;
-            if(isLastStep){
-              //Sending data to server Create Appointmento
+            if(isLastStep) {
+              //Sending data to server Create Appointment
+              NetworkHelper networkHelper = NetworkHelper();
+             await  networkHelper.createAppointment(name.text, age.text, "Male", dateChose!, 'Suyash Ghimire', 'TU TEaching', problem.text, phone.text, "not", "not", token);
               print('api called');
+            }else{
+              setState(() {
+                currentStep += 1;
+              });
             }
-            setState(() {
-              currentStep += 1;
-            });
+
           },
           onStepCancel: currentStep == 0 ? null : (){
             setState(() {
@@ -151,6 +161,8 @@ class _BookAppointmentState extends State<BookAppointment> {
               );
               setState(() {
                 selectDate.text = _selectedDateTime.toString().substring(0, _selectedDateTime.toString().indexOf(' '));
+                dateChose =  _selectedDateTime.toString();
+                print(dateChose);
               });
             },),
             DatePickerField(imageName: 'assets/formIcons/clock.png',  textFieldDesignType: 'bottom',controller: selectTime,date: selectTime.text,onPress: ()async{

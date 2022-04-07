@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import '../Models/create_appointment.dart';
 import '../Models/get_changepassword.dart';
 import '../Models/get_email.dart';
 import '../Models/get_login.dart';
@@ -14,8 +15,8 @@ import '../Models/registerapi.dart';
 class NetworkHelper {
 
   // 'http://192.168.254.15/cms/public'; //College
-//office 10.3.5.145
-  // home192.168.254.15
+//office:  10.3.5.145
+  // home: 192.168.254.15
   var baseUrl = 'http://10.3.5.145/cms/public';
 
   //Very important method called by all the methods in api cache manager class 'api_links.dart'. Return the json Response
@@ -49,7 +50,7 @@ class NetworkHelper {
         'password': password,
       }),
     );
-    print(response.statusCode);
+    print(response.body);
     print("not ok");
 
     if (response.statusCode == 200) {
@@ -65,12 +66,13 @@ class NetworkHelper {
   Future<Login> getLoginData(
     String email,
     String password,
+
   ) async {
     var loginModel;
     var lastFinalLoginModel;
     http.Response response = await http.post(
       Uri.parse('$baseUrl/api/login'),
-      headers: {HttpHeaders.contentTypeHeader: "application/json"},
+      headers: {HttpHeaders.contentTypeHeader: "application/json",},
       body: jsonEncode(<dynamic, dynamic>{
         'email': email,
         'password': password,
@@ -93,7 +95,7 @@ class NetworkHelper {
     var getEmailModel;
     http.Response response = await http.post(
       Uri.parse('http://103.109.230.18/api/forgot-password'),
-      headers: {HttpHeaders.contentTypeHeader: "application/json"},
+      headers: {HttpHeaders.contentTypeHeader: "application/json", },
       body: jsonEncode(
         <dynamic, dynamic>{
           'email': email,
@@ -108,6 +110,101 @@ class NetworkHelper {
     }
     return getEmailModel;
   }
+
+
+  /*Future<CreateAppointment>? createAppointment(
+      String name,
+      String age,
+      String gender,
+      String phone,
+      String datetime,
+      String doctorName,
+      String hospitalName,
+      String describeProblem,
+      String optional1,
+      var token,
+      ) async {
+    var createModel;
+    http.Response response = await http.post(
+      Uri.parse('$baseUrl/fypapi/public/api/appointment/add'),
+      headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+        'Authorization': 'Bearer $token'
+      },
+      body: jsonEncode(<String, dynamic>{
+        'name': name,
+        'age': age,
+        'gender': gender,
+        'phone': phone,
+        'datetime': datetime,
+        'doctorName': doctorName,
+        'hospitalName': hospitalName,
+        'describeProblem': describeProblem,
+        'optional1': optional1,
+      }),
+    );
+    print(response.statusCode);
+    print("not ok");
+
+    if (response.statusCode == 200) {
+      var data = response.body;
+      var jsonMap = jsonDecode(data);
+      print("Register: $jsonMap");
+      createModel = CreateAppointment.fromJson(jsonMap);
+    }
+    return createModel;
+  }
+*/
+
+
+  //Post request for appointment.
+  Future<CreateAppointment>? createAppointment(
+      String name,
+      String age,
+      String gender,
+      String datetime,
+      String doctorName,
+      String hospitalName,
+      String describeProblem,
+      String phone,
+      String optional1,
+      String optional2,
+      var token,
+
+      ) async {
+    print( name + age + gender +datetime+doctorName+hospitalName+describeProblem+phone+optional1+optional2+token);
+    var createModel;
+    http.Response response = await http.post(
+      Uri.parse('$baseUrl/api/createAppointment'),
+
+      headers: { HttpHeaders.contentTypeHeader: "application/json", 'Authorization': 'Bearer $token'},
+      body: jsonEncode(<String, dynamic>{
+        'name': name,
+        'age': age,
+        'gender': gender,
+        'datetime': datetime,
+        'doctorName': doctorName,
+        'hospitalName': hospitalName,
+        'describeProblem': describeProblem,
+        'phone': phone,
+        'optional1': optional1,
+        'optional2': optional2,
+      }),
+    );
+    print(response.statusCode);
+    print("not ok");
+
+    if (response.statusCode == 200) {
+      var data = response.body;
+      var jsonMap = jsonDecode(data);
+      print("Register: $jsonMap");
+      createModel = CreateAppointment.fromJson(jsonMap);
+    }
+    return createModel;
+  }
+
+
+
 
   //Change Password api post
   Future<ChangePassword> getFPasswordData(

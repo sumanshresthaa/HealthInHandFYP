@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:health_in_hand/UI/Chatroom/search.dart';
 import 'package:provider/src/provider.dart';
@@ -20,8 +21,13 @@ class ChatRoom extends StatefulWidget {
 class _ChatRoomState extends State<ChatRoom> {
 
   AuthMethod authMethod = AuthMethod();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   DatabaseMethods databaseMethods = DatabaseMethods();
   Stream<QuerySnapshot>? chatRoomStream;
+
+  _signOut() async {
+    await _firebaseAuth.signOut();
+  }
 
   @override
   void initState() {
@@ -50,7 +56,8 @@ class _ChatRoomState extends State<ChatRoom> {
           GestureDetector(
             onTap: () async{
               setState(() {
-                authMethod.signOut();
+                _signOut();
+              //  authMethod.signOut();
               });
 
               SharedPreferences preferences = await SharedPreferences.getInstance();
