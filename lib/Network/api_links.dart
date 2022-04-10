@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:api_cache_manager/models/cache_db_model.dart';
 import 'package:api_cache_manager/utils/cache_manager.dart';
+import 'package:health_in_hand/Models/view_appointment.dart';
 import '../Models/get_details_of_Arthritis.dart';
 import '../Models/get_details_of_HivMedication.dart';
 import '../Models/get_details_of_TBMedication.dart';
@@ -15,7 +16,20 @@ import 'NetworkHelper.dart';
 class ApiData {
   //office 10.3.5.145
   // home192.168.254.15
-  var baseUrl = 'http://10.3.5.145/cms/public';
+  var baseUrl = 'http://192.168.254.15/cms/public';
+
+
+  Future<ViewAppointment> getAppointmentDetails(String token) async {
+    var jsonData = await NetworkHelper()
+        .getDataWithToken('$baseUrl/api/getAppointments', token);
+    print(jsonData);
+    var jsonMap = jsonDecode(jsonData);
+    print(jsonMap);
+    var appointmentDetails = ViewAppointment.fromJson(jsonMap);
+    return appointmentDetails;
+  }
+
+
   //Details of HIV get api call and download
   Future<DetailsOfHiv> getDetailsOfHivDetails() async {
     var isCacheExist = await APICacheManager().isAPICacheKeyExist(

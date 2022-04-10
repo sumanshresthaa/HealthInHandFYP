@@ -17,7 +17,9 @@ import '../ScrollableAppBar/backappbar.dart';
 
 class SignupPage extends StatefulWidget {
   final toggle;
-  SignupPage({this.toggle});
+  final page;
+  final isFromProfile;
+  SignupPage({this.toggle, this.page, this.isFromProfile});
   @override
   _SignupPageState createState() => _SignupPageState();
 }
@@ -110,7 +112,7 @@ class _SignupPageState extends State<SignupPage> {
               .pushAndRemoveUntil(
               MaterialPageRoute(
                 builder: (context) =>
-                    LoginPage(),
+                    LoginPage(page: widget.page, isFromProfile: false),
               ),
                   (route) => route.isFirst);
 
@@ -514,7 +516,7 @@ class _SignupPageState extends State<SignupPage> {
                                     GestureDetector(
                                       onTap: () {
                                         Navigator.push(context, MaterialPageRoute(builder: (context){
-                                          return LoginPage();
+                                          return LoginPage(page: widget.page, isFromProfile: false,);
                                         }));
                                       },
                                       child: Text(

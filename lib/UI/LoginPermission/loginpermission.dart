@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:health_in_hand/UI/Chatroom/chat_room.dart';
 import '../../Textstyle/constraints.dart';
 import '../Extracted Widgets/buttons.dart';
 import '../Login/login.dart';
@@ -8,6 +9,8 @@ import '../Signup/signup.dart';
 
 //Ask if the user wants to login or signup before taking them to the screen
 class LoginPermission extends StatefulWidget {
+  LoginPermission({this.page});
+  final page;
   @override
   _LoginPermissionState createState() => _LoginPermissionState();
 }
@@ -161,7 +164,7 @@ class LoginPermissionBody extends StatelessWidget {
                         child: LoginButton('Log in', () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                                return LoginPage();
+                                return LoginPage(isFromProfile: false,page: ChatRoom(),);
                               }));
                         }),
                       ),
@@ -171,7 +174,7 @@ class LoginPermissionBody extends StatelessWidget {
                       LangButton(() {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                              return SignupPage();
+                              return SignupPage(isFromProfile: false, page: ChatRoom());
                             }));
                       }, 'Sign Up')
                     ],

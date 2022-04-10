@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:health_in_hand/Network/NetworkHelper.dart';
 import 'package:health_in_hand/Textstyle/constraints.dart';
+import 'package:health_in_hand/UI/Screens/BookAppointment/receipt.dart';
 import 'package:provider/provider.dart';
-
+import 'dart:math';
 import '../../../ViewModel/changenotifier.dart';
 import '../../Extracted Widgets/bluetextfield.dart';
 import '../../Extracted Widgets/buttons.dart';
@@ -31,20 +32,30 @@ class _BookAppointmentState extends State<BookAppointment> {
   late var token = Provider.of<DataProvider>(context, listen: false).tokenValue;
 
 
-
-
+  var patientId;
+  random() {
+    patientId =  1000 + Random().nextInt(10000 - 1000);
+  }
 
 
 
   int currentStep = 0;
   @override
+  void initState() {
+    // TODO: implement initState
+    random();
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffF3F7FF),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xff3FA5DF),
-        title: Text('Book Appointment', style: kStyleHomeWelcome.copyWith(color: Colors.white),),
-        leading: Icon(Icons.arrow_back, color: Colors.white,),
+        backgroundColor: Color(0xffFFFFFF),
+        title: Text('Book Appointment', style: kStyleHomeWelcome.copyWith(color: Color(0xff324F81)),),
+        leading: Icon(Icons.arrow_back, color: Color(0xff324F81),),
+        centerTitle: true,
 
 
       ),
@@ -57,12 +68,16 @@ class _BookAppointmentState extends State<BookAppointment> {
           steps: getSteps(),
           currentStep: currentStep,
           onStepContinue: () async {
+
             final isLastStep = currentStep == getSteps().length - 1;
             if(isLastStep) {
               //Sending data to server Create Appointment
-              NetworkHelper networkHelper = NetworkHelper();
-             await  networkHelper.createAppointment(name.text, age.text, "Male", dateChose!, 'Suyash Ghimire', 'TU TEaching', problem.text, phone.text, "not", "not", token);
+             NetworkHelper networkHelper = NetworkHelper();
+             await  networkHelper.createAppointment(name.text, age.text, "Male", dateChose!, 'Suyash Ghimire', 'TU TEaching', problem.text, phone.text, patientId.toString(), "not", token);
               print('api called');
+              Navigator.push(context, MaterialPageRoute(builder: (context){
+                return Receipt();
+              }));
             }else{
               setState(() {
                 currentStep += 1;

@@ -17,14 +17,14 @@ class NetworkHelper {
   // 'http://192.168.254.15/cms/public'; //College
 //office:  10.3.5.145
   // home: 192.168.254.15
-  var baseUrl = 'http://10.3.5.145/cms/public';
+  var baseUrl = 'http://192.168.254.15/cms/public';
 
   //Very important method called by all the methods in api cache manager class 'api_links.dart'. Return the json Response
   Future<dynamic> getData(String url) async {
     try {
-      http.Response response = await http.get(Uri.parse(url), headers: {
-        /*'Bearer 6033fee8-fd94-11eb-9a03-0242ac130003'*/
-      });
+      http.Response response = await http.get(Uri.parse(url),
+        headers: { HttpHeaders.contentTypeHeader: "application/json"},
+      );
       if (response.statusCode == 200) {
         var data = response.body;
 
@@ -32,6 +32,20 @@ class NetworkHelper {
       }
     } catch (Exception) {}
   }
+
+  Future<dynamic> getDataWithToken(String url, String token) async {
+    try {
+      http.Response response = await http.get(Uri.parse(url),
+        headers: { HttpHeaders.contentTypeHeader: "application/json", 'Authorization': 'Bearer $token'},
+      );
+      if (response.statusCode == 200) {
+        var data = response.body;
+
+        return data;
+      }
+    } catch (Exception) {}
+  }
+
 
 
 //Post request for registration. Sign up

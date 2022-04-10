@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../Network/NetworkHelper.dart';
 import '../../Network/api_links.dart';
 import '../../Notification/hiv_notification.dart';
@@ -112,6 +113,10 @@ class _SettingsContentState extends State<SettingsContent> {
                   }
                 },
               ),
+    SettingsList(englishLanguage ? 'Log Out' : 'एपको बारेमा ',
+            Icons.logout, () async {
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          await preferences.remove('ISLOGGEDIN');}),
               SettingsList(englishLanguage ? 'About App' : 'एपको बारेमा ',
                   Icons.error_outline, () {
 Navigator.push(context, MaterialPageRoute(builder: (context){

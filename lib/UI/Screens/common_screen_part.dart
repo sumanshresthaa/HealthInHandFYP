@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:health_in_hand/UI/Chatroom/chat_room.dart';
 import 'package:health_in_hand/UI/Login/login.dart';
+import 'package:health_in_hand/UI/Screens/BookAppointment/view_appointments.dart';
 import 'package:sizer/sizer.dart';
+import '../../FirebaseChat/FirebaseModel/helperfunction.dart';
 import '../../Textstyle/constraints.dart';
 import 'BookAppointment/appointment.dart';
 import 'Doctors/doctor_list.dart';
 class HomeDesignAppBar extends StatelessWidget {
-  const HomeDesignAppBar({Key? key}) : super(key: key);
-
+  var userIsLoggedIn;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -26,24 +27,42 @@ class HomeDesignAppBar extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xffF3F7FF),
-                      borderRadius: BorderRadius.all(Radius.circular(
-                          10.0)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          blurRadius: 3,
-                          offset: Offset(
-                              0, 2), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset(
-                          'assets/calendariconhome.png', height: 22),
+                  GestureDetector(
+                    onTap: () async {
+                        await HelperFunctions.getUserLoggedInSharedPreference().then((value) {
+                         userIsLoggedIn = value;});
+
+                      if(userIsLoggedIn != null){
+                        Navigator.push(context, MaterialPageRoute(builder: (context){
+                          return ViewAppointments();
+                        }));
+                                              }
+                      else{
+                        Navigator.push(context, MaterialPageRoute(builder: (context){
+                          return LoginPage(isFromProfile: false, page: ViewAppointments());
+                        }));
+                      }
+
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xffF3F7FF),
+                        borderRadius: BorderRadius.all(Radius.circular(
+                            10.0)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            blurRadius: 3,
+                            offset: Offset(
+                                0, 2), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                            'assets/calendariconhome.png', height: 22),
+                      ),
                     ),
                   ),
                   SizedBox(width: 8,),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:health_in_hand/UI/Chatroom/chat_room.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import '../Chatroom/go_to_chat.dart';
 import '../Extracted Widgets/showdialog.dart';
 import '../LoginPermission/loginpermission.dart';
 import '../Screens/Arthritis Screens/athritis_home.dart';
@@ -19,7 +21,7 @@ class _BottomNavigationHivState extends State<BottomNavigationHiv> {
   final _children = [
     HivHome(),
     ChooseAppointment(),
-    LoginPermission(),
+    GoToChat(),
     Settings(),
   ];
 
