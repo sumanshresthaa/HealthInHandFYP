@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'FirebaseChat/FirebaseModel/helperfunction.dart';
 import 'ViewModel/changenotifier.dart';
 import 'firstloadingscreen.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await HelperFunctions.init();
   await Firebase.initializeApp();
+
   runApp(HealthInHand());
 }
 

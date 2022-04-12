@@ -182,14 +182,14 @@ class MessageChat extends StatelessWidget {
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
               width: 1,
-              color: Color(0xff0D5D40),
+              color: Color(0xff3FA5DF),
             ),
             borderRadius: BorderRadius.circular(0.0),
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
               width: 1,
-              color: Color(0xff0D5D40),
+              color: Color(0xff3FA5DF),
             ),
             borderRadius: BorderRadius.circular(0.0),
           ),
@@ -209,7 +209,7 @@ class MessageChat extends StatelessWidget {
               child: Image.asset(
                 icon,
                 width: 22,
-                color: Color(0xff0D5D40),
+                color: Color(0xff3FA5DF),
               ),
             ),
           )),

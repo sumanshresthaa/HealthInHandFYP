@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:health_in_hand/FirebaseChat/FirebaseModel/helperfunction.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DataProvider extends ChangeNotifier {
@@ -50,7 +51,9 @@ class DataProvider extends ChangeNotifier {
   }
 
   void token(var token) {
-    tokenValue = token;
+
+      tokenValue = token;
+
     print("tokenvalue: $tokenValue");
     notifyListeners();
   }

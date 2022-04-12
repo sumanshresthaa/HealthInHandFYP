@@ -3,12 +3,52 @@ import 'package:health_in_hand/UI/Chatroom/chat_room.dart';
 import 'package:health_in_hand/UI/Login/login.dart';
 import 'package:health_in_hand/UI/Screens/BookAppointment/view_appointments.dart';
 import 'package:sizer/sizer.dart';
+import '../../FirebaseChat/FirebaseModel/constant_names.dart';
 import '../../FirebaseChat/FirebaseModel/helperfunction.dart';
 import '../../Textstyle/constraints.dart';
 import 'BookAppointment/appointment.dart';
 import 'Doctors/doctor_list.dart';
-class HomeDesignAppBar extends StatelessWidget {
+class HomeDesignAppBar extends StatefulWidget {
+  HomeDesignAppBar({this.scaffoldKey});
+  final scaffoldKey;
+
+  @override
+  State<HomeDesignAppBar> createState() => _HomeDesignAppBarState();
+}
+
+class _HomeDesignAppBarState extends State<HomeDesignAppBar> {
+
+
   var userIsLoggedIn;
+  var myName;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+     getUserName();
+     refreshPage();
+      super.initState();
+  }
+
+  refreshPage(){
+    setState(() {
+
+    });
+  }
+
+
+  getUserName() async{
+    await HelperFunctions.getUserLoggedInSharedPreference().then((value) {
+      setState(() {
+        userIsLoggedIn = value;
+      });
+     });
+    setState(() async {
+      myName =  await HelperFunctions.getUserNameSharedPreference();
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -19,13 +59,21 @@ class HomeDesignAppBar extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
+              Row(
                 children: [
-                  Text('Welcome, Suman', style: kStyleHomeWelcome),
+                  userIsLoggedIn != null ? Padding(
+                    padding: const EdgeInsets.only(right:10.0),
+                    child: GestureDetector(
+                        onTap: (){
+                          widget.scaffoldKey.currentState!.openDrawer();
+                        },
+                        child: Image.asset('assets/drawer.png', height: 14,)),
+                  ) : Container(),
+                  userIsLoggedIn == null ?   Text('Welcome', style: kStyleHomeWelcome,) : Text('Welcome, ${myName.substring(0, myName.indexOf(' '))}', style: kStyleHomeWelcome),
 
                 ],
               ),
-              Row(
+             Row(
                 children: [
                   GestureDetector(
                     onTap: () async {
@@ -79,10 +127,13 @@ class HomeDesignAppBar extends StatelessWidget {
 }
 
 class HomeDesign extends StatelessWidget {
-HomeDesign({this.imageURL, this.specialities, this.type});
+HomeDesign({this.imageURL, this.specialities, this.type, this.specialityIcon});
 final imageURL;
 final specialities;
 final type;
+final specialityIcon;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -233,7 +284,7 @@ final type;
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Image.asset(
-                                'assets/dnaicon.png', height: 38),
+                                '${specialityIcon[index]}', height: 38),
 
                           ),
 

@@ -26,6 +26,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
   DatabaseMethods databaseMethods = DatabaseMethods();
 
 
+  //When the icon is pressed this is called. The final function in chat
   sendMessage(){
     Map<String, dynamic> messageMap= {
       "message" : messageController.text,
@@ -34,8 +35,19 @@ class _ConversationScreenState extends State<ConversationScreen> {
     };
 
     if(messageController.text.isNotEmpty){
+      Map<String, dynamic> lastMessageInfoMap ={
+        "lastMessage":  messageController.text,
+        "lastMessageTimeStamp": DateTime.now().millisecondsSinceEpoch,
+        "sentby" : ConstantName.myName,
+      };
+//Adds the message as well as updates the last message collection as well
       databaseMethods.addConversationMessages(widget.chatRoomId, messageMap);
+      databaseMethods.updateLastMessageSent(widget.chatRoomId, lastMessageInfoMap);
+      clearTextField();
     }
+    
+    
+
   }
 
   @override
@@ -44,6 +56,8 @@ class _ConversationScreenState extends State<ConversationScreen> {
     receiveMessage();
     super.initState();
   }
+
+
 
   receiveMessage(){
      databaseMethods.getConversationMessages(widget.chatRoomId).then((val){
@@ -90,7 +104,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
               child: MessageChat(nameController: messageController, hintText: "Write a Message", icon: "assets/send.png", onPress:
                   (){
                   sendMessage();
-                  clearTextField();
+
 
                   } ),
             ),
@@ -121,7 +135,7 @@ class MessageTile extends StatelessWidget {
 
           borderRadius: isSentByMe ? BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(0), topLeft: Radius.circular(20), topRight: Radius.circular(20)) :
           BorderRadius.only(bottomLeft: Radius.circular(0), bottomRight: Radius.circular(20), topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-          color: isSentByMe ?  Color(0xff0D5D40) : Color(0xffF6F6F6)  //Put gradient here
+          color: isSentByMe ?  Color(0xff3FA5DF) : Color(0xffF6F6F6)  //Put gradient here
         ),
           child: Padding(
             padding: const EdgeInsets.all(20.0),

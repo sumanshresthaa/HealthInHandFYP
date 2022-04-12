@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:health_in_hand/FirebaseChat/FirebaseModel/helperfunction.dart';
 import 'package:sizer/sizer.dart';
 import 'Models/get_email.dart';
 import 'UI/BottomNavigations/bottom_navigation_covid.dart';
@@ -9,7 +9,6 @@ import 'UI/Screens/Initial Screens/select_language.dart';
 import 'UI/Screens/Initial Screens/select_purpose.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
-
 import 'ViewModel/changenotifier.dart';
 
 class FirstLoadingScreen extends StatefulWidget {
@@ -25,14 +24,25 @@ class FirstLoadingScreen extends StatefulWidget {
 class _FirstLoadingScreenState extends State<FirstLoadingScreen> {
   var languageSharedPreference;
   var preferenceSharedPreference;
-
+  var token;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    token = HelperFunctions.getTokenSharedPreference() ?? 'notoken';
+
     sharedPreferenceLanguage();
     sharedPreferencePreference();
   }
+
+
+
+/*  Future sharedPreferenceLogin() async {
+    setState(() {
+      context.read<DataProvider>().token(token);
+    });
+  }*/
 
   sharedPreferenceLanguage() async {
     final SharedPreferences sharedPreferences =
@@ -43,6 +53,7 @@ class _FirstLoadingScreenState extends State<FirstLoadingScreen> {
     }
     setState(() {
       languageSharedPreference = obtainedLanguage;
+      context.read<DataProvider>().token(token);
     });
   }
 

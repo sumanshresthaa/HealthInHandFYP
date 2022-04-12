@@ -109,39 +109,52 @@ class _LoginPageState extends State<LoginPage> {
     if (result == ConnectivityResult.mobile ||
         result == ConnectivityResult.wifi) {
       if (_formKey.currentState!.validate()) {
-        _showDialog();
         final email = emailController.text;
         final password = passwordController.text;
-        try {
+        _showDialog();
+
           //checking if the login is working is still necessary
-          Login login = await NetworkHelper().getLoginData(email, password);
-          var error = login.message;
-          var token = login.token;
-          context.read<DataProvider>().token(token);
-          print(error);
-          print(token);
-          //Write the firebase credential here
-          databaseMethods.getUserByEmail(email).then((val) {
-            snapshotUserInfo = val;
-            HelperFunctions.saveUserNameSharedPreference(
-                snapshotUserInfo!.docs[0].get("name"));
-          });
-          HelperFunctions.saveUserLoggedInSharedPreference(true);
 
 
-          HelperFunctions.saveUserEmailSharedPreference(email);
-          authMethod.signInWithEmailAndPassword(email, password).then((val) {
+          authMethod.signInWithEmailAndPassword(email, password).then((val) async {
             if (val != null) {
+              HelperFunctions.saveUserEmailSharedPreference(email);
+
+              //Write the firebase credential here
+              await databaseMethods.getUserByEmail(email).then((val) {
+                snapshotUserInfo = val;
+                HelperFunctions.saveUserNameSharedPreference(
+                    snapshotUserInfo!.docs[0].get("name"));
+              });
+              Login login = await NetworkHelper().getLoginData(email, password);
+              var error = login.message;
+              var token = login.token;
+              context.read<DataProvider>().token(token);
+              print(error);
+              print(token);
+              HelperFunctions.saveTokenSharedPreference(token!);
+              HelperFunctions.saveUserLoggedInSharedPreference(true);
               widget.isFromProfile ? sendMessage(snapshotUserInfo!.docs[0].get("name")) :
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) {
-                return widget.page;
-              }));
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  /*            settings: RouteSettings(name: '/1'),*/
+                  builder: (context) => widget.page,
+                ),
+                ModalRoute.withName('/'),
+              );
+            }else {
+              FocusScope.of(context).requestFocus(FocusNode());
+              Navigator.pop(context);
+              showSnackBar(
+                context,
+                "Attention",
+                Colors.red,
+                Icons.info,
+                "Invalid Username or Password",
+              );
             }
-          }).onError((error, stackTrace) => credentialDontMatch());
-        } catch (e) {
-          print("failed");
-        }
+          });/*).onError((error, stackTrace) => credentialDontMatch());*/
+
       } else {
         return print("Unsuccessful");
       }
@@ -338,7 +351,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
 
 
-                                  LoginButton('Log In', () async {
+                                  LoginButton('Log In', ()  {
                                     /*    if (internetConnection())*/
                                     signIn();
                                   }),

@@ -4,6 +4,7 @@ import 'package:health_in_hand/Textstyle/constraints.dart';
 import 'package:health_in_hand/UI/Screens/BookAppointment/receipt.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
+import 'package:intl/intl.dart';
 import '../../../ViewModel/changenotifier.dart';
 import '../../Extracted Widgets/bluetextfield.dart';
 import '../../Extracted Widgets/buttons.dart';
@@ -73,7 +74,7 @@ class _BookAppointmentState extends State<BookAppointment> {
             if(isLastStep) {
               //Sending data to server Create Appointment
              NetworkHelper networkHelper = NetworkHelper();
-             await  networkHelper.createAppointment(name.text, age.text, "Male", dateChose!, 'Suyash Ghimire', 'TU TEaching', problem.text, phone.text, patientId.toString(), "not", token);
+             await  networkHelper.createAppointment(name.text, age.text, "Male", dateChose.toString() + " " + selectTime.text, 'Suyash Ghimire', 'TU TEaching', problem.text, phone.text, patientId.toString(), "not", token);
               print('api called');
               Navigator.push(context, MaterialPageRoute(builder: (context){
                 return Receipt();
@@ -176,7 +177,8 @@ class _BookAppointmentState extends State<BookAppointment> {
               );
               setState(() {
                 selectDate.text = _selectedDateTime.toString().substring(0, _selectedDateTime.toString().indexOf(' '));
-                dateChose =  _selectedDateTime.toString();
+                dateChose = DateFormat('yyyy-MM-dd').format(_selectedDateTime!);
+
                 print(dateChose);
               });
             },),
@@ -189,9 +191,20 @@ class _BookAppointmentState extends State<BookAppointment> {
               if(timeOfDay != null && timeOfDay != selectedTime)
               {
                 setState(() {
-                  selectedTime = timeOfDay;
-                  selectTime.text = selectedTime.toString();
+                  DateTime parsedTime = DateFormat.jm()
+                      .parse(selectedTime.format(context).toString());
+                  String formattedTime =
+                  DateFormat('HH:mm:ss').format(parsedTime);
+                  selectTime.text = formattedTime;
+                  print("select ${formattedTime}");
+                  print(
+                      'sect ${dateChose.toString() + " " + selectTime.text}');
+
                 });
+
+
+
+
               }
             },),
 

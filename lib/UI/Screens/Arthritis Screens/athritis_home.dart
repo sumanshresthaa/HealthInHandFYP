@@ -7,6 +7,7 @@ import 'package:health_in_hand/UI/Screens/BookAppointment/appointment.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
+import '../../../FirebaseChat/FirebaseModel/constant_names.dart';
 import '../../../FirebaseChat/FirebaseModel/helperfunction.dart';
 import '../../../Models/get_details_of_Arthritis.dart';
 import '../../../Textstyle/constraints.dart';
@@ -41,6 +42,9 @@ class _AboutHivAppBarState extends State<AboutHivAppBar> {
   }
 }
 
+
+
+
 class HivHome extends StatefulWidget {
   @override
   _HivHomeState createState() => _HivHomeState();
@@ -50,7 +54,7 @@ class _HivHomeState extends State<HivHome> {
   int activeIndex = 0;
 
   ConnectivityResult result = ConnectivityResult.none;
-
+  var scaffoldKey = GlobalKey<ScaffoldState>();
   Future<DetailsOfArthritis>? _arthritisHome;
 
   Future<DetailsOfArthritis> getApiData() async {
@@ -173,7 +177,6 @@ class _HivHomeState extends State<HivHome> {
   @override
   void initState() {
     // TODO: implement initState
-
     getLoggedInState();
     super.initState();
     _arthritisHome = getApiData();
@@ -195,6 +198,17 @@ class _HivHomeState extends State<HivHome> {
     'Back Pain',
   ];
 
+
+  var specialityIcon = [
+    'assets/arthritisicon.jpg',
+    'assets/jointicon.png',
+    'assets/muscles.png',
+    'assets/boneicon.png',
+    'assets/muscleicon.png',
+
+  ];
+
+
   @override
   Widget build(BuildContext context) {
     if (_arthritisHome == null) {
@@ -205,18 +219,33 @@ class _HivHomeState extends State<HivHome> {
     } else
       return Scaffold(
           backgroundColor: Color(0xffF3F7FF),
+          key: scaffoldKey,
+          drawer: Drawer(
+            child: ListView(
+              children: [
+                ListTile(
+                  title: const Text('Item 1'),
+                  onTap: () {
+                    // Update the state of the app.
+                    // ...
+                  },
+                ),
+              ],
+            ),
+
+          ),
           body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Column(
                 children: [
-                  HomeDesignAppBar(),
+                  HomeDesignAppBar(scaffoldKey: scaffoldKey),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: ListView(
                         shrinkWrap: true,
                         children: [
-                          HomeDesign(imageURL: 'assets/arthritishomebook.png', specialities: arthritisSpecialities, type: 'arthritis', ),
+                          HomeDesign(imageURL: 'assets/arthritishomebook.png', specialities: arthritisSpecialities, type: 'arthritis', specialityIcon: specialityIcon),
 
 
                           FutureBuilder<DetailsOfArthritis>(

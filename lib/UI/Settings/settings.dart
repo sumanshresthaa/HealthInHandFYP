@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:health_in_hand/UI/Login/logout.dart';
 import 'package:provider/src/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Network/NetworkHelper.dart';
@@ -115,8 +116,8 @@ class _SettingsContentState extends State<SettingsContent> {
               ),
     SettingsList(englishLanguage ? 'Log Out' : 'एपको बारेमा ',
             Icons.logout, () async {
-          SharedPreferences preferences = await SharedPreferences.getInstance();
-          await preferences.remove('ISLOGGEDIN');}),
+          LogoutDialog().showDialogLogout(context);
+         }),
               SettingsList(englishLanguage ? 'About App' : 'एपको बारेमा ',
                   Icons.error_outline, () {
 Navigator.push(context, MaterialPageRoute(builder: (context){
