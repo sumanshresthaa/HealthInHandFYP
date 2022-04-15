@@ -8,8 +8,7 @@ import '../../../Network/NetworkHelper.dart';
 import '../../../Textstyle/constraints.dart';
 import '../../../ViewModel/changenotifier.dart';
 import '../../BottomNavigations/bottom_navigation_covid.dart';
-import '../../BottomNavigations/bottom_navigation_hiv.dart';
-import '../../BottomNavigations/bottom_navigation_tb.dart';
+import '../../BottomNavigations/bottom_navigation_arthritis.dart';
 import '../../ScrollableAppBar/backappbar.dart';
 import '../Hotline Numbers/hotline_numbers.dart';
 
@@ -86,13 +85,13 @@ class _ProfileContentState extends State<ProfileContent> {
                   sPreference.remove('token');
                   Navigator.push(context, MaterialPageRoute(builder: (context){
                     if(sPreference.getString('choosePreference') == 'hiv'){
-                      return BottomNavigationHiv();
+                      return BottomNavigationArthritis();
                     }
                     else if(sPreference.getString('choosePreference') == 'covid'){
                       return BottomNavigationCovid();
                     }
                     else{
-                      return BottomNavigationTB();
+                      return BottomNavigationArthritis();
                     }
 
     }

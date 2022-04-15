@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:health_in_hand/UI/BottomNavigations/bottom_navigation_covid.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import '../Textstyle/constraints.dart';
-import '../UI/BottomNavigations/bottom_navigation_tb.dart';
 import '../UI/Extracted Widgets/buttons.dart';
 import '../UI/ScrollableAppBar/backappbar.dart';
 
@@ -63,7 +63,7 @@ class _TBNotificationState extends State<TBNotification> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) {
-                                  return BottomNavigationTB();
+                                  return BottomNavigationCovid();
                                 },
                               ),
                             );
@@ -86,7 +86,7 @@ class _TBNotificationState extends State<TBNotification> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return BottomNavigationTB();
+                                return BottomNavigationCovid();
                               },
                             ),
                           );

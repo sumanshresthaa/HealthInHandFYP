@@ -87,6 +87,12 @@ class _ViewAppointmentsState extends State<ViewAppointments> {
               var address = initial?.optional1;
               var doctorName = initial?.doctorName;
               var phoneNum = initial?.phone;
+              var sex = initial?.gender;
+              var patientId = initial?.optional2;
+              var age = initial?.age;
+              var name = initial?.name;
+              var date = initial?.datetime;
+
 
 
               return Padding(
@@ -94,7 +100,7 @@ class _ViewAppointmentsState extends State<ViewAppointments> {
                 child: GestureDetector(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context){
-                      return AppointmentDetails(index: index,);
+                      return AppointmentDetails(hospitalName: hospitalName, address: address, doctor: doctorName, phone: phoneNum, sex: sex, patientId: patientId, age: age, name: name, date: date, time: "20:00", );
                     }));
                   },
                   child: Column(

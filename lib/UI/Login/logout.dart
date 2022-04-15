@@ -44,7 +44,9 @@ class LogoutDialog{
               SizedBox(
                 width: 12,
               ),
-              TextButton(onPressed: (){}, child: Text('No',style: kStyleMuseoText.copyWith(color: Colors.blue),)),
+              TextButton(onPressed: (){
+                Navigator.pop(context);
+              }, child: Text('No',style: kStyleMuseoText.copyWith(color: Colors.blue),)),
 
             ],
           )),

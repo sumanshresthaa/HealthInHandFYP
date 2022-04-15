@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:health_in_hand/UI/Chatroom/chat_room.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import '../Chatroom/go_to_chat.dart';
 import '../Extracted Widgets/showdialog.dart';
-import '../LoginPermission/loginpermission.dart';
 import '../Screens/Arthritis Screens/athritis_home.dart';
-import '../Screens/BookAppointment/appointment.dart';
 import '../Screens/BookAppointment/choose_appointment.dart';
 import '../Settings/settings.dart';
 
 
-class BottomNavigationHiv extends StatefulWidget {
+class BottomNavigationArthritis extends StatefulWidget {
   @override
-  _BottomNavigationHivState createState() => _BottomNavigationHivState();
+  _BottomNavigationArthritisState createState() => _BottomNavigationArthritisState();
 }
 
-class _BottomNavigationHivState extends State<BottomNavigationHiv> {
+class _BottomNavigationArthritisState extends State<BottomNavigationArthritis> {
   int _currentIndex = 0;
 
   final _children = [
@@ -80,10 +77,10 @@ class _BottomNavigationHivState extends State<BottomNavigationHiv> {
               ),
               SalomonBottomBarItem(
                 icon: ImageIcon(
-                  AssetImage('assets/profileicon.png'),
+                  AssetImage('assets/settingicon.png'),
                   size: 22,
                 ),
-                title: Text("Profile"),
+                title: Text("Settings"),
                 selectedColor: Colors.teal,
               ),
             ],

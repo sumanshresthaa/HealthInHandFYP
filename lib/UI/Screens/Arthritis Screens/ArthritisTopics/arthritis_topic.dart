@@ -9,18 +9,18 @@ import '../../../../ViewModel/changenotifier.dart';
 import '../../../Extracted Widgets/buttons.dart';
 import '../../../Extracted Widgets/topicandesc.dart';
 
-class HIVTopic extends StatefulWidget {
-  HIVTopic(this.label, this.indexID, this.list);
+class ArthritisTopic extends StatefulWidget {
+  ArthritisTopic(this.label, this.indexID, this.list);
 
   final label;
   var indexID;
   final list;
 
   @override
-  State<HIVTopic> createState() => _HIVTopicState();
+  State<ArthritisTopic> createState() => _ArthritisTopicState();
 }
 
-class _HIVTopicState extends State<HIVTopic> {
+class _ArthritisTopicState extends State<ArthritisTopic> {
 
   @override
   void initState() {

@@ -1,16 +1,11 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import '../../FirebaseChat/FirebaseModel/database_methods.dart';
 import '../../FirebaseChat/Services/auth.dart';
-import '../../Models/registerapi.dart';
 import '../../Network/NetworkHelper.dart';
-import '../../Textstyle/constraints.dart';
-import '../Chatroom/chat_room.dart';
 import '../Extracted Widgets/bluetextfield.dart';
-import '../Extracted Widgets/buttons.dart';
 import '../Extracted Widgets/snackbar.dart';
 import '../Login/login.dart';
 import '../ScrollableAppBar/backappbar.dart';
@@ -19,7 +14,9 @@ class SignupPage extends StatefulWidget {
   final toggle;
   final page;
   final isFromProfile;
+
   SignupPage({this.toggle, this.page, this.isFromProfile});
+
   @override
   _SignupPageState createState() => _SignupPageState();
 }
@@ -43,89 +40,74 @@ class _SignupPageState extends State<SignupPage> {
     });
   }
 
-
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneNoController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
-  TextEditingController();
+      TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   AuthMethod authMethod = AuthMethod();
   DatabaseMethods databaseMethods = DatabaseMethods();
 
   //Calls the api and firebase for sign up
-  callApiFirebase() async{
-      //Register Firebase from here
-      var name = nameController.text;
-      var password = passwordController.text;
-      var email = emailController.text;
-      Map<String, String> userInfo = {
-        "name": name,
-        "email": email
-      };
-      NetworkHelper().getRegData(name, email, password); //Upload/Sign up in api
-     /* NetworkHelper networkHelper = NetworkHelper();
+  callApiFirebase() async {
+    // pload/Sign up in api
+    /* NetworkHelper networkHelper = NetworkHelper();
      RegisterApi? registerApi = await networkHelper.getRegData(name, email, password);
      registerApi*/
 
-      try {
-       await  databaseMethods.uploadUserInfo(userInfo);//Upload in database
-
-       await authMethod.signUpWithEmailAndPassword(email, password).whenComplete(() {
-         return  showSnackBar(
-           context,
-           "Success",
-           Colors.green,
-           Icons.info,
-           "Your account has been registered.",
-         );});
-
-           //Upload in authentication
-
-
-      }
-
-     on FirebaseAuthException catch  (e) {
-       print('Failed with error code: ${e.code}');
-       print(e.message);
-       showSnackBar(
+    //Register Firebase from here
+    var name = nameController.text;
+    var password = passwordController.text;
+    var email = emailController.text;
+    Map<String, String> userInfo = {"name": name, "email": email};
+    authMethod.signUpWithEmailAndPassword(email, password).then((value) async {
+      if (value != null) {
+        await databaseMethods.uploadUserInfo(userInfo); //Upload in database
+        NetworkHelper().getRegData(name, email, password);
+        showSnackBar(
+          context,
+          "Success",
+          Colors.red,
+          Icons.info,
+          "Successfully, created an account",
+        );
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) =>
+                  LoginPage(page: widget.page, isFromProfile: false),
+            ),
+            (route) => route.isFirst);
+      } else {
+        showSnackBar(
           context,
           "Attention",
           Colors.red,
           Icons.info,
           "The email has already been taken.",
         );
-     }
-      return true;
+        setState(() {
+          isLoading = false;
 
+        });
+
+      }
+    });
   }
 
-
-
-  signMeUp(){
+  signMeUp() {
     if (_formKey.currentState!.validate()) {
-        try {
-           callApiFirebase();
-          Navigator.of(context)
-              .pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (context) =>
-                    LoginPage(page: widget.page, isFromProfile: false),
-              ),
-                  (route) => route.isFirst);
+      try {
+        callApiFirebase();
 
-          print("sucess");
-
+        print("sucess");
       } catch (e) {
-
-          print(e);
+        print(e);
         print("failed");
       }
     }
-
-
   }
 
   @override
@@ -139,7 +121,7 @@ class _SignupPageState extends State<SignupPage> {
             children: [
               Padding(
                 padding:
-                const EdgeInsets.symmetric(vertical: 30.0, horizontal: 40),
+                    const EdgeInsets.symmetric(vertical: 30.0, horizontal: 40),
                 child: Container(
                   child: Center(
                     child: Column(
@@ -154,32 +136,33 @@ class _SignupPageState extends State<SignupPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           'Register',
                                           style: TextStyle(
-                                            fontFamily: 'NutinoSansReg',
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w700,
-                                              color: Color(0xff0D5D40)
-                                          ),
-
-
+                                              fontFamily: 'NutinoSansReg',
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w700,
+                                              color: Color(0xff0D5D40)),
                                         ),
                                         SizedBox(height: 5),
-                                        Text('Become our member',style: TextStyle(
-                                          fontFamily: 'NutinoSansReg',
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                          color: Color(0xff777777),
-                                        ), ),
+                                        Text(
+                                          'Become our member',
+                                          style: TextStyle(
+                                            fontFamily: 'NutinoSansReg',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                            color: Color(0xff777777),
+                                          ),
+                                        ),
                                       ],
                                     ),
-
                                     Hero(
                                       tag: 'logo',
                                       child: Image.asset(
@@ -190,7 +173,6 @@ class _SignupPageState extends State<SignupPage> {
                                   ],
                                 ),
                                 SizedBox(height: 5),
-
                                 SizedBox(
                                   height: 32.00,
                                 ),
@@ -198,7 +180,7 @@ class _SignupPageState extends State<SignupPage> {
                                   'Username',
                                   'assets/usericon.png',
                                   nameController,
-                                      (String? value) {
+                                  (String? value) {
                                     if (value!.isEmpty) {
                                       return "Please enter username";
                                     }
@@ -212,12 +194,12 @@ class _SignupPageState extends State<SignupPage> {
                                   'Email',
                                   'assets/email.png',
                                   emailController,
-                                      (String? value) {
+                                  (String? value) {
                                     if (value!.isEmpty) {
                                       return "Please enter email";
                                     }
                                     if (!RegExp(
-                                        "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                            "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
                                         .hasMatch(value)) {
                                       return "Please enter valid email";
                                     }
@@ -231,7 +213,7 @@ class _SignupPageState extends State<SignupPage> {
                                   'Phone no.',
                                   'assets/phone.png',
                                   phoneNoController,
-                                      (String? value) {
+                                  (String? value) {
                                     if (value!.isEmpty) {
                                       return "Please enter phone number";
                                     }
@@ -259,16 +241,12 @@ class _SignupPageState extends State<SignupPage> {
                                     filled: true,
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        width: 1,
-                                          color: Color(0xff0D5D40)
-                                      ),
+                                          width: 1, color: Color(0xff0D5D40)),
                                       borderRadius: BorderRadius.circular(24.0),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        width: 1,
-                                          color: Color(0xff0D5D40)
-                                      ),
+                                          width: 1, color: Color(0xff0D5D40)),
                                       borderRadius: BorderRadius.circular(24.0),
                                     ),
                                     errorBorder: OutlineInputBorder(
@@ -280,9 +258,7 @@ class _SignupPageState extends State<SignupPage> {
                                     ),
                                     focusedErrorBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        width: 1,
-                                          color: Color(0xff0D5D40)
-                                      ),
+                                          width: 1, color: Color(0xff0D5D40)),
                                       borderRadius: BorderRadius.circular(24.0),
                                     ),
                                     hintText: 'Password',
@@ -293,12 +269,13 @@ class _SignupPageState extends State<SignupPage> {
                                       color: Color(0xff777777),
                                     ),
                                     contentPadding:
-                                    EdgeInsets.fromLTRB(8, 16, 0, 0),
+                                        EdgeInsets.fromLTRB(8, 16, 0, 0),
                                     prefixIcon: Padding(
                                       padding: const EdgeInsets.only(
                                           left: 20, right: 12),
                                       child: Image.asset(
-                                        'assets/lock.png',color: Color(0xff0D5D40),
+                                        'assets/lock.png',
+                                        color: Color(0xff0D5D40),
                                         width: 20,
                                       ),
                                     ),
@@ -310,7 +287,8 @@ class _SignupPageState extends State<SignupPage> {
                                         child: Image.asset(
                                           isConfirmHiddenPassword
                                               ? 'assets/eye.png'
-                                              : 'assets/eye.png',color: Color(0xff0D5D40),
+                                              : 'assets/eye.png',
+                                          color: Color(0xff0D5D40),
                                           width: 20,
                                         ),
                                       ),
@@ -361,16 +339,12 @@ class _SignupPageState extends State<SignupPage> {
                                     filled: true,
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        width: 1,
-                                          color: Color(0xff0D5D40)
-                                      ),
+                                          width: 1, color: Color(0xff0D5D40)),
                                       borderRadius: BorderRadius.circular(24.0),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        width: 1,
-                                          color: Color(0xff0D5D40)
-                                      ),
+                                          width: 1, color: Color(0xff0D5D40)),
                                       borderRadius: BorderRadius.circular(24.0),
                                     ),
                                     errorBorder: OutlineInputBorder(
@@ -382,9 +356,7 @@ class _SignupPageState extends State<SignupPage> {
                                     ),
                                     focusedErrorBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        width: 1,
-                                          color: Color(0xff0D5D40)
-                                      ),
+                                          width: 1, color: Color(0xff0D5D40)),
                                       borderRadius: BorderRadius.circular(24.0),
                                     ),
                                     hintText: 'Confirm Password',
@@ -395,12 +367,13 @@ class _SignupPageState extends State<SignupPage> {
                                       color: Color(0xff777777),
                                     ),
                                     contentPadding:
-                                    EdgeInsets.fromLTRB(8, 16, 0, 0),
+                                        EdgeInsets.fromLTRB(8, 16, 0, 0),
                                     prefixIcon: Padding(
                                       padding: const EdgeInsets.only(
                                           left: 20, right: 12),
                                       child: Image.asset(
-                                        'assets/lock.png',color: Color(0xff0D5D40),
+                                        'assets/lock.png',
+                                        color: Color(0xff0D5D40),
                                         width: 20,
                                       ),
                                     ),
@@ -412,7 +385,8 @@ class _SignupPageState extends State<SignupPage> {
                                         child: Image.asset(
                                           isConfirmHiddenPassword
                                               ? 'assets/eye.png'
-                                              : 'assets/eye.png',color: Color(0xff0D5D40),
+                                              : 'assets/eye.png',
+                                          color: Color(0xff0D5D40),
                                           width: 20,
                                         ),
                                       ),
@@ -432,55 +406,55 @@ class _SignupPageState extends State<SignupPage> {
                                 SizedBox(
                                   height: 32.0,
                                 ),
-                        ElevatedButton(
-                          onPressed: ()async{
-                            if(isLoading) return;
-                            setState(() => isLoading = true);
-                            result =
-                            await Connectivity().checkConnectivity();
-                            if (result == ConnectivityResult.mobile ||
-                            result == ConnectivityResult.wifi) {
-                            await signMeUp();
-                            }
-                            else {
-                              setState(() => isLoading = false);
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    if (isLoading) return;
+                                    setState(() => isLoading = true);
+                                    result = await Connectivity()
+                                        .checkConnectivity();
+                                    if (result == ConnectivityResult.mobile ||
+                                        result == ConnectivityResult.wifi) {
+                                      await signMeUp();
+                                    } else {
+                                      setState(() => isLoading = false);
 
-
-                              showSnackBar(
-                                context,
-                                "Attention",
-                                Color(0xff0D5D40),
-                                Icons.info,
-                                "You must be connected to the internet.",
-                              );
-                            }
-
-
-
-                          },
-                          style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.zero,
-                              shape:
-                              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
-                          child: Ink(
-                            decoration: BoxDecoration(
-                                color: Color(0xff0D5D40), borderRadius: BorderRadius.circular(24)),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 40,
-                              alignment: Alignment.center,
-                              child: isLoading ? CircularProgressIndicator.adaptive() : Text(
-                                'Register',
-                                style: TextStyle(
-                                  fontFamily: 'NutinoSansReg',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(0xffFFFFFF),
+                                      showSnackBar(
+                                        context,
+                                        "Attention",
+                                        Color(0xff0D5D40),
+                                        Icons.info,
+                                        "You must be connected to the internet.",
+                                      );
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20))),
+                                  child: Ink(
+                                    decoration: BoxDecoration(
+                                        color: Color(0xff0D5D40),
+                                        borderRadius:
+                                            BorderRadius.circular(24)),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 40,
+                                      alignment: Alignment.center,
+                                      child: isLoading
+                                          ? CircularProgressIndicator.adaptive()
+                                          : Text(
+                                              'Register',
+                                              style: TextStyle(
+                                                fontFamily: 'NutinoSansReg',
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400,
+                                                color: Color(0xffFFFFFF),
+                                              ),
+                                            ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ),
-                        ),
                                 /*LoginButton('Sign Up', () async {
                                   result =
                                   await Connectivity().checkConnectivity();
@@ -500,7 +474,6 @@ class _SignupPageState extends State<SignupPage> {
                                 SizedBox(
                                   height: 20.0,
                                 ),
-
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -515,18 +488,22 @@ class _SignupPageState extends State<SignupPage> {
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        Navigator.push(context, MaterialPageRoute(builder: (context){
-                                          return LoginPage(page: widget.page, isFromProfile: false,);
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return LoginPage(
+                                            page: widget.page,
+                                            isFromProfile: false,
+                                          );
                                         }));
                                       },
                                       child: Text(
                                         'Log In',
                                         style: TextStyle(
-                                          fontFamily: 'NutinoSansReg',
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                            color: Color(0xff0D5D40)
-                                        ),
+                                            fontFamily: 'NutinoSansReg',
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: Color(0xff0D5D40)),
                                       ),
                                     ),
                                   ],

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:health_in_hand/UI/BottomNavigations/bottom_navigation_hiv.dart';
+import 'package:health_in_hand/UI/BottomNavigations/bottom_navigation_arthritis.dart';
 
 import '../../../Textstyle/constraints.dart';
 import '../../Extracted Widgets/buttons.dart';
 
 class Receipt extends StatelessWidget {
-  const Receipt({Key? key}) : super(key: key);
-
+ Receipt({this.name, this.age, this.gender, this.date, this.time, this.doctorName, this.hospital, this.patientId});
+ final name, age, gender, date, time, doctorName, hospital, patientId;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,14 +47,15 @@ class Receipt extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
 
                   children: [
-                    AllDetails(title: 'Name', details: 'Suman Shrestha',),
-                    AllDetails(title: 'Age', details: 'Suman Shrestha',),
-                    AllDetails(title: 'Sex', details: 'Suman Shrestha',),
-                    AllDetails(title: 'Address', details: 'Suman Shrestha',),
-                    AllDetails(title: 'Appointment date', details: 'Suman Shsrestha',),
-                    AllDetails(title: 'Time', details: 'Suman Shrestha',),
-                    AllDetails(title: 'Doctor', details: 'Suman Shrestha',),
-                    AllDetails(title: 'Id number', details: 'Suman Shrestha',),
+                    AllDetails(title: 'Name', details: '$name',),
+                    AllDetails(title: 'Age', details: '$age',),
+                    AllDetails(title: 'Sex', details: '$gender',),
+                    AllDetails(title: 'Appointment date', details: '$date',),
+                    AllDetails(title: 'Time', details: '$time',),
+                    AllDetails(title: 'Health Center', details: '$hospital',),
+
+                    AllDetails(title: 'Doctor Assigned', details: 'Dr. $doctorName',),
+                    AllDetails(title: 'Id number', details: '$patientId',),
 
 
 
@@ -67,7 +68,7 @@ class Receipt extends StatelessWidget {
 
             BlueButton('Go to Home', (){
               Navigator.push(context, MaterialPageRoute(builder: (context){
-                return BottomNavigationHiv();
+                return BottomNavigationArthritis();
               }));
             })
 

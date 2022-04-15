@@ -4,8 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../Textstyle/constraints.dart';
 import '../../../ViewModel/changenotifier.dart';
 import '../../BottomNavigations/bottom_navigation_covid.dart';
-import '../../BottomNavigations/bottom_navigation_hiv.dart';
-import '../../BottomNavigations/bottom_navigation_tb.dart';
+import '../../BottomNavigations/bottom_navigation_arthritis.dart';
 import '../../Extracted Widgets/buttons.dart';
 
 class SelectPurpose extends StatefulWidget {
@@ -97,7 +96,7 @@ class _SelectPurposeState extends State<SelectPurpose> {
                           Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
                               /*            settings: RouteSettings(name: '/1'),*/
-                              builder: (context) => BottomNavigationHiv(),
+                              builder: (context) => BottomNavigationArthritis(),
                             ),
                             ModalRoute.withName('/'),
                           );

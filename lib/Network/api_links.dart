@@ -16,7 +16,7 @@ import 'NetworkHelper.dart';
 class ApiData {
   //office 10.3.5.145
   // home192.168.254.15
-  var baseUrl = 'http://192.168.254.15/cms/public';
+  var baseUrl = 'http://10.3.4.194/cms/public';
 
 
   Future<ViewAppointment> getAppointmentDetails(String token) async {

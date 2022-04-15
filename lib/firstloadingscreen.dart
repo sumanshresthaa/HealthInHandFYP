@@ -3,8 +3,7 @@ import 'package:health_in_hand/FirebaseChat/FirebaseModel/helperfunction.dart';
 import 'package:sizer/sizer.dart';
 import 'Models/get_email.dart';
 import 'UI/BottomNavigations/bottom_navigation_covid.dart';
-import 'UI/BottomNavigations/bottom_navigation_hiv.dart';
-import 'UI/BottomNavigations/bottom_navigation_tb.dart';
+import 'UI/BottomNavigations/bottom_navigation_arthritis.dart';
 import 'UI/Screens/Initial Screens/select_language.dart';
 import 'UI/Screens/Initial Screens/select_purpose.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -83,14 +82,14 @@ class _FirstLoadingScreenState extends State<FirstLoadingScreen> {
                 : (preferenceSharedPreference == null
                     ? SelectPurpose()
                     : (preferenceSharedPreference == 'hiv'
-                        ? BottomNavigationHiv()
+                        ? BottomNavigationArthritis()
                         : preferenceSharedPreference == 'tuberculosis'
-                            ? BottomNavigationTB()
+                            ? BottomNavigationArthritis()
                             : preferenceSharedPreference == 'covid'
                                 ? BottomNavigationCovid()
                                 : SelectPurpose())),
-            '/3': (context) => BottomNavigationHiv(),
-            '2': (context) => BottomNavigationTB(),
+            '/3': (context) => BottomNavigationArthritis(),
+            '2': (context) => BottomNavigationArthritis(),
             '/abt': (context) => BottomNavigationCovid(),
           },
           theme: Theme.of(context).copyWith(

@@ -51,6 +51,8 @@ class _ChatRoomState extends State<ChatRoom> {
 
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,6 +114,8 @@ ChatRoomTile(this.lastMessage, this.chatRoomId, this.userName, this.sentBy);
 
 class _ChatRoomTileState extends State<ChatRoomTile> {
   var userName;
+
+
 getThisUserInfo() async {
   userName =
       widget.chatRoomId.replaceAll(widget.userName, "").replaceAll("_", "");
@@ -123,6 +127,7 @@ getThisUserInfo() async {
   void initState() {
     // TODO: implement initState
   getThisUserInfo();
+  print('chaliracha');
     super.initState();
   }
 

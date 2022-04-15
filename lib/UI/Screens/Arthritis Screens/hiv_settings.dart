@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import '../../../Network/api_links.dart';
-import '../../../Notification/hiv_notification.dart';
+import '../../../Notification/arthritis_notification.dart';
 import '../../../Textstyle/constraints.dart';
 import '../../../ViewModel/changenotifier.dart';
-import '../../BottomNavigations/bottom_navigation_hiv.dart';
+import '../../BottomNavigations/bottom_navigation_arthritis.dart';
 import '../../Extracted Widgets/snackbar.dart';
 import '../../ScrollableAppBar/backappbar.dart';
 import '../Initial Screens/select_language.dart';
@@ -50,7 +50,7 @@ class _SettingsContentState extends State<SettingsContent> {
                       : 'भाषा परिवर्तन गर्नुहोस् ',
                   Icons.language_outlined, () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return SelectLanguage(page: BottomNavigationHiv());
+                  return SelectLanguage(page: BottomNavigationArthritis());
                 }));
               }),
               SettingsList(

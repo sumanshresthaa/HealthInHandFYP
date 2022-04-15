@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'package:api_cache_manager/utils/cache_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:health_in_hand/UI/Screens/Arthritis%20Screens/ArthritisTopics/arthritis_topic.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../Models/get_details_of_Arthritis.dart';
 import '../../../ViewModel/changenotifier.dart';
 import '../../Extracted Widgets/content_list_topic.dart';
 import '../../ScrollableAppBar/backappbar.dart';
-import 'HIVTopics/hiv_topic.dart';
 
 class AboutHivPage extends StatelessWidget {
   AboutHivPage({this.indexId, this.label});
@@ -104,7 +104,7 @@ class _AboutHivDetailState extends State<AboutHivDetail> {
                             : textLabel.nameNe,
                         Icons.chevron_right,
                         Colors.teal[400],
-                        HIVTopic(
+                        ArthritisTopic(
                           widget.label1,
                           index,
                           snapshot.data!.data!.arthritisDetails![widget.indexId].children,

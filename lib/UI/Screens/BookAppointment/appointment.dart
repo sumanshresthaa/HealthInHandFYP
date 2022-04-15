@@ -21,16 +21,32 @@ class _BookAppointmentState extends State<BookAppointment> {
   final selectDate = TextEditingController();
   var selectTime= TextEditingController();
   var dateChose;
+  int? _value = 0;
+  String? gender;
+  String? hospital;
   TextEditingController name= TextEditingController();
   TextEditingController address= TextEditingController();
-
   TextEditingController age= TextEditingController();
-
   TextEditingController phone= TextEditingController();
-
   TextEditingController email= TextEditingController();
   TextEditingController problem= TextEditingController();
   late var token = Provider.of<DataProvider>(context, listen: false).tokenValue;
+  List _selectedPaymentT = [];
+  List images = [
+    'assets/cash.png',
+    'assets/esewa.png',
+  ];
+  List nameList = [
+    'Cash',
+    'Esewa',
+  ];
+
+  var doctors = [
+    'Suyash Ghimire',
+    'Ojas Thapa',
+    'Prashansa Dhungana',
+    'Rebicca Pradhan'
+  ];
 
 
   var patientId;
@@ -41,9 +57,23 @@ class _BookAppointmentState extends State<BookAppointment> {
 
 
   int currentStep = 0;
+
+  String? doctorName;
+
+  selectRandomDoctor(){
+Random random = Random();
+  int doctorNumber = random.nextInt(4);
+ doctorName = doctors[doctorNumber];
+ print(doctorName);
+}
+
+
+
+
   @override
   void initState() {
     // TODO: implement initState
+    selectRandomDoctor();
     random();
     super.initState();
   }
@@ -73,12 +103,49 @@ class _BookAppointmentState extends State<BookAppointment> {
             final isLastStep = currentStep == getSteps().length - 1;
             if(isLastStep) {
               //Sending data to server Create Appointment
-             NetworkHelper networkHelper = NetworkHelper();
-             await  networkHelper.createAppointment(name.text, age.text, "Male", dateChose.toString() + " " + selectTime.text, 'Suyash Ghimire', 'TU TEaching', problem.text, phone.text, patientId.toString(), "not", token);
-              print('api called');
-              Navigator.push(context, MaterialPageRoute(builder: (context){
-                return Receipt();
-              }));
+             if (name.text.isNotEmpty &&
+                 age.text.isNotEmpty &&
+                 phone.text.isNotEmpty &&
+                 problem.text.isNotEmpty &&
+                 selectDate.text.isNotEmpty &&
+                 selectTime.text.isNotEmpty &&
+                 _value != 0 &&
+                 currentType != 'Select Hospital'
+                  && _selectedPaymentT.isNotEmpty
+                                  ) {
+               NetworkHelper networkHelper = NetworkHelper();
+               await  networkHelper.createAppointment(name.text, age.text, gender!, dateChose.toString() + " " + selectTime.text, '$doctorName' , '$hospital', problem.text, phone.text, patientId.toString(), "not", token);
+                print('api called');
+               Navigator.of(context).pushAndRemoveUntil(
+                 MaterialPageRoute(
+                   /*            settings: RouteSettings(name: '/1'),*/
+                   builder: (context) =>  Receipt(name:name.text, age:age.text, gender:gender, date:dateChose.toString(), time:selectTime.text, doctorName:doctorName,hospital:hospital,patientId:patientId.toString())
+
+                 ),
+                 ModalRoute.withName('/'),
+               );
+             }
+             else {
+               print('failed');
+               showDialog(
+                 context: context,
+                 builder: (BuildContext context) {
+                   return AlertDialog(
+                     title: const Text("Alert"),
+                     content: const Text("Please fill up all the fields"),
+                     actions: [
+                       TextButton(
+                         child: const Text("OK"),
+                         onPressed: () {
+                           Navigator.pop(context);
+                         },
+                       )
+                     ],
+                   );
+                 },
+               );
+             }
+
             }else{
               setState(() {
                 currentStep += 1;
@@ -146,6 +213,81 @@ class _BookAppointmentState extends State<BookAppointment> {
             imageName: 'assets/formIcons/mapIcon.png', textFieldDesignType: 'both', controller: age),
 
           SizedBox(height: 20,),
+          Text(
+            'Gender',
+            style:  kStyleContent.copyWith(color: Color(0xff000000))
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Radio(
+                    activeColor: Colors.black38,
+                    value: 1,
+                    groupValue: _value,
+                    onChanged: (value) {
+                      setState(() {
+                        _value = 1;
+                        gender = 'Male';
+                      });
+                    },
+                  ),
+                  Text(
+                    'Male',
+                    style: kStyleHome,
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Row(
+                children: [
+                  Radio(
+                    activeColor: Colors.black38,
+                    value: 2,
+                    groupValue: _value,
+                    onChanged: (value) {
+                      setState(() {
+                        _value = 2;
+                        gender = 'Female';
+                      });
+                    },
+                  ),
+                  Text(
+                    'Female',
+                    style: kStyleHome,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              Row(
+                children: [
+                  Radio(
+                    activeColor: Colors.black38,
+                    value: 3,
+                    groupValue: _value,
+                    onChanged: (value) {
+                      setState(() {
+                        _value = 3;
+                        gender = 'Others';
+                      });
+                    },
+                  ),
+                  Text(
+                    'Others',
+                    style: kStyleHome,
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: 30,),
+
+
           Text('Phone and Email', style: kStyleContent.copyWith(color: Color(0xff000000)),),
           SizedBox(height: 10,),
           TextFormFieldForLoginRegister( label: 'Phone',
@@ -192,7 +334,7 @@ class _BookAppointmentState extends State<BookAppointment> {
               {
                 setState(() {
                   DateTime parsedTime = DateFormat.jm()
-                      .parse(selectedTime.format(context).toString());
+                      .parse(timeOfDay .format(context).toString());
                   String formattedTime =
                   DateFormat('HH:mm:ss').format(parsedTime);
                   selectTime.text = formattedTime;
@@ -236,6 +378,7 @@ class _BookAppointmentState extends State<BookAppointment> {
         isActive: currentStep >= 2 ,
         title: Text('Complete'),
          content: Column(
+           crossAxisAlignment: CrossAxisAlignment.start,
            children: [
              RecheckResult(title: 'Name',name: name.text),
              RecheckResult(title: 'Address',name: address.text),
@@ -245,56 +388,99 @@ class _BookAppointmentState extends State<BookAppointment> {
              RecheckResult(title: 'Date',name: selectDate.text),
              RecheckResult(title: 'Time',name: selectTime.text),
              RecheckResult(title: 'Problem',name: problem.text),
+             //RecheckResult(title: 'Doctor Assigned',name: doctorName),
+             SizedBox(height: 40,),
+
+             Text(
+               'Payment Options:',
+               style: kStyleTime,
+             ),
+             SizedBox(
+               height: MediaQuery.of(context).size.height * 0.20,
+               child: ListView.builder(
+                   padding: EdgeInsets.zero,
+                   itemCount: 2,
+                   itemBuilder: (context, i) {
+                     final _isSelected = _selectedPaymentT.contains(i);
+                     var _isSelectedPay = nameList[i];
+                     return PaymentOptions(
+                       icon: images[i],
+                       name: nameList[i],
+                       onTap: () {
+                         setState(
+                               () {
+                             if (_isSelected) {
+                               _selectedPaymentT.remove(i);
+                             } else if (_selectedPaymentT.isNotEmpty) {
+                               _selectedPaymentT.clear();
+                               _selectedPaymentT.add(i);
+                             } else {
+                               _selectedPaymentT.add(i);
+                             }
+                           },
+                         );
+
+                         if (_selectedPaymentT.contains(1)) {
+                           //_initPayment(_isSelectedPay);
+                         }
+                       },
+                       isSelected: _isSelected,
+                     );
+                   }),
+             ),
+
              SizedBox(height: 50,)
           ],
          )
 
     ),];
   }
-  String currentType = 'Sahara Clinic';
-  var types = ['Sahara Clinic','Basundhara Poly Clinic', 'Meridian Health Care'];
-  DropdownButtonFormField<String> getDropdownHospital(){
+  String currentType = 'Select Hospital';
+  var types = [
+    'Select Hospital',
+    'T.U. Teaching Hospital',
+    'Bir Hospital',
+    'Norvic International Hospital',
+    'Patan Hospital',
+    'Kathmandu Model Hospital',
+  ];
+  DropdownButtonFormField<String> getDropdownHospital() {
     List<DropdownMenuItem<String>> dropDownItems = [];
 
-    for(String type in types){
+    for (String type in types) {
       var newItem = DropdownMenuItem(
-          child: Text('${type[0].toUpperCase()}${type.substring(1)}', style: TextStyle(color: Colors.grey)),
+          child: Text(
+            '${type[0].toUpperCase()}${type.substring(1)}',
+            style: kStyleHome.copyWith(color: Colors.grey.shade600),
+          ),
           value: type);
       dropDownItems.add(newItem);
     }
     return DropdownButtonFormField(
-
       dropdownColor: Colors.white,
+      style: kStyleHome.copyWith(color: Colors.black38),
       value: currentType,
       items: dropDownItems,
-
-      onChanged: (value){
+      onChanged: (value) {
         setState(() {
           currentType = value!;
-
+          hospital = currentType;
+          print(currentType);
         });
       },
-    decoration: InputDecoration(
-    enabledBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.grey.shade100, width: 2),
-    borderRadius: BorderRadius.circular(4),
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.white,
+        border: InputBorder.none,
+        focusedBorder: OutlineInputBorder(
 
-    ),
-      border: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white, width: 2),
-        borderRadius: BorderRadius.circular(4),
+        ),
+        enabledBorder: OutlineInputBorder(
+        ),
       ),
-      filled: true,
-      fillColor: Colors.white,
-      focusedBorder:  OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white, width: 2),
-        borderRadius: BorderRadius.circular(4),
-      ),
-    ),
     );
   }
 }
-
 class RecheckResult extends StatelessWidget {
 RecheckResult({this.name, this.title});
 final title;
@@ -308,6 +494,68 @@ final name;
         SizedBox(height: 20,),
         Text('$name', style: kStyleHomeWelcome.copyWith(fontSize: 14),),
       ],
+    );
+  }
+}
+
+class PaymentOptions extends StatelessWidget {
+  PaymentOptions(
+      {required this.icon,
+        required this.name,
+        required this.onTap,
+        required this.isSelected});
+
+  final icon;
+  final name;
+  final onTap;
+  final isSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 8),
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(4),
+          boxShadow: [
+        BoxShadow(
+        color: Colors.grey.withOpacity(0.5),
+        blurRadius: 3,
+        offset: Offset(
+            0, 2), // changes position of shadow
+      ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Image.asset(
+              icon,
+              height: 23,
+            ),
+            SizedBox(
+              width: 12,
+            ),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    name,
+                    style: kStyleHome,
+                  ),
+                  Icon(
+                    isSelected ? Icons.check_circle : Icons.circle,
+                    color: isSelected ? Colors.blue : Color(0xFFA3A3A3),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

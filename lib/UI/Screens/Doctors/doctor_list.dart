@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:api_cache_manager/utils/cache_manager.dart';
 import 'package:flutter/material.dart';
+import '../../../Drawer/home_drawer.dart';
+import '../../../FirebaseChat/FirebaseModel/helperfunction.dart';
 import '../../../Models/get_details_of_doctor.dart';
 import '../../../Textstyle/constraints.dart';
 import '../../Extracted Widgets/bluetextfield.dart';
@@ -17,6 +19,9 @@ class _DoctorListState extends State<DoctorList> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<DetailsOfDoctor>? _doctorList;
+  var userIsLoggedIn;
+  var myName;
+
 
   Future<DetailsOfDoctor> getApiData() async {
     var cacheData = await APICacheManager().getCacheData("doctor_list");
@@ -33,6 +38,18 @@ class _DoctorListState extends State<DoctorList> {
     _doctorList = getApiData();
   }
 
+  getUserName() async{
+    await HelperFunctions.getUserLoggedInSharedPreference().then((value) {
+      setState(() {
+         userIsLoggedIn = value;
+      });
+    });
+    setState(() async {
+      myName =  await HelperFunctions.getUserNameSharedPreference();
+
+    });
+  }
+
 
   var doctorImage = [
     'assets/suyash.jpg',
@@ -47,17 +64,7 @@ class _DoctorListState extends State<DoctorList> {
     return Scaffold(
         key: scaffoldKey,
       drawer: Drawer(
-        child: ListView(
-          children: [
-            ListTile(
-              title: const Text('Item 1'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-          ],
-        ),
+          child: DrawerListView(),
 
       ),
       body: SingleChildScrollView(
@@ -70,11 +77,11 @@ class _DoctorListState extends State<DoctorList> {
 
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  GestureDetector(
+                  userIsLoggedIn != null ? GestureDetector(
                     onTap: (){
                       scaffoldKey.currentState!.openDrawer();
                     },
-                      child: Image.asset('assets/drawer.png', height: 14,)),
+                      child: Image.asset('assets/drawer.png', height: 14,)): Container(),
                   Text('Doctors', style: kStyleHomeWelcome),
                   Container(width: 14,)
 

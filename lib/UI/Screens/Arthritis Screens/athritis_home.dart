@@ -7,6 +7,7 @@ import 'package:health_in_hand/UI/Screens/BookAppointment/appointment.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
+import '../../../Drawer/home_drawer.dart';
 import '../../../FirebaseChat/FirebaseModel/constant_names.dart';
 import '../../../FirebaseChat/FirebaseModel/helperfunction.dart';
 import '../../../Models/get_details_of_Arthritis.dart';
@@ -220,19 +221,12 @@ class _HivHomeState extends State<HivHome> {
       return Scaffold(
           backgroundColor: Color(0xffF3F7FF),
           key: scaffoldKey,
-          drawer: Drawer(
-            child: ListView(
-              children: [
-                ListTile(
-                  title: const Text('Item 1'),
-                  onTap: () {
-                    // Update the state of the app.
-                    // ...
-                  },
-                ),
-              ],
-            ),
+          drawer: SizedBox(
+            width: MediaQuery.of(context).size.width*0.6,
+            child: Drawer(
+              child: DrawerListView(),
 
+            ),
           ),
           body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),

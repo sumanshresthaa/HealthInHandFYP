@@ -17,7 +17,7 @@ class NetworkHelper {
   // 'http://192.168.254.15/cms/public'; //College
 //office:  10.3.5.145
   // home: 192.168.254.15
-  var baseUrl = 'http://192.168.254.15/cms/public';
+  var baseUrl = 'http://10.3.4.194/cms/public';
 
   //Very important method called by all the methods in api cache manager class 'api_links.dart'. Return the json Response
   Future<dynamic> getData(String url) async {
@@ -64,7 +64,7 @@ class NetworkHelper {
         'password': password,
       }),
     );
-    print(response.body);
+    print(response.statusCode);
     print("not ok");
 
     if (response.statusCode == 200) {
@@ -73,8 +73,15 @@ class NetworkHelper {
       print("Register: $jsonMap");
       registerModel = RegisterApi.fromJson(jsonMap);
     }
+    else if (response.statusCode == 201) {
+      var data = response.body;
+      var jsonMap = jsonDecode(data);
+      print("Register: $jsonMap");
+      registerModel = RegisterApi.fromJson(jsonMap);
+    }
     return registerModel;
   }
+
 
   // Login Network Helper (offline)
   Future<Login> getLoginData(

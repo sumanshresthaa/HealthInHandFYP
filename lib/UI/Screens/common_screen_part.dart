@@ -43,10 +43,10 @@ class _HomeDesignAppBarState extends State<HomeDesignAppBar> {
         userIsLoggedIn = value;
       });
      });
-    setState(() async {
+
       myName =  await HelperFunctions.getUserNameSharedPreference();
 
-    });
+
   }
 
   @override

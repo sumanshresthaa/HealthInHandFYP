@@ -5,13 +5,12 @@ import 'package:provider/src/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Network/NetworkHelper.dart';
 import '../../Network/api_links.dart';
-import '../../Notification/hiv_notification.dart';
-import '../../Notification/tb_notification.dart';
+import '../../Notification/arthritis_notification.dart';
+import '../../Notification/covid_notification.dart';
 import '../../Textstyle/constraints.dart';
 import '../../ViewModel/changenotifier.dart';
 import '../BottomNavigations/bottom_navigation_covid.dart';
-import '../BottomNavigations/bottom_navigation_hiv.dart';
-import '../BottomNavigations/bottom_navigation_tb.dart';
+import '../BottomNavigations/bottom_navigation_arthritis.dart';
 import '../Extracted Widgets/snackbar.dart';
 import '../Screens/Hotline Numbers/hotline_numbers.dart';
 import '../Screens/Initial Screens/select_language.dart';
@@ -64,7 +63,7 @@ class _SettingsContentState extends State<SettingsContent> {
                       : 'भाषा परिवर्तन गर्नुहोस् ',
                   Icons.language_outlined, () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return SelectLanguage(page: selectedPurpose == "hiv" ?BottomNavigationHiv() : selectedPurpose == "tuberculosis" ?BottomNavigationTB() : BottomNavigationCovid());
+                  return SelectLanguage(page: selectedPurpose == "hiv" ?BottomNavigationArthritis() : selectedPurpose == "tuberculosis" ?BottomNavigationArthritis() : BottomNavigationCovid());
                 }));
               }),
               SettingsList(

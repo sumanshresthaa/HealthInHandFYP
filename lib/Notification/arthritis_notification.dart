@@ -4,7 +4,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import '../Textstyle/constraints.dart';
-import '../UI/BottomNavigations/bottom_navigation_hiv.dart';
+import '../UI/BottomNavigations/bottom_navigation_arthritis.dart';
 import '../UI/Extracted Widgets/buttons.dart';
 import '../UI/ScrollableAppBar/backappbar.dart';
 
@@ -39,7 +39,7 @@ class _HivNotificationState extends State<HivNotification> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Do you want to receive\nreminder of HIV medication at\n9am and 2pm everyday?',
+                        'Do you want to receive\nreminder of Arthritis medication at\n9am and 2pm everyday?',
                         style: kStyleNotification,
                         textAlign: TextAlign.center,
                       ),
@@ -59,7 +59,7 @@ class _HivNotificationState extends State<HivNotification> {
                           () {
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
-                                  builder: (context) => BottomNavigationHiv(),
+                                  builder: (context) => BottomNavigationArthritis(),
                                 ),
                                 (route) => route.isFirst);
                             displayNotification('Reminder for HIV patient');
@@ -81,7 +81,7 @@ class _HivNotificationState extends State<HivNotification> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return BottomNavigationHiv();
+                                return BottomNavigationArthritis();
                               },
                             ),
                           );

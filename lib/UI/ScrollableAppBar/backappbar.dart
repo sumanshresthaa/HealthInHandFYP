@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import '../BottomNavigations/bottom_navigation_covid.dart';
-import '../BottomNavigations/bottom_navigation_hiv.dart';
-import '../BottomNavigations/bottom_navigation_tb.dart';
+import '../BottomNavigations/bottom_navigation_arthritis.dart';
 
 class CustomScrollAppBar extends StatelessWidget {
   final Widget bodypass;
@@ -114,12 +113,12 @@ class CustomNavScrollAppBar extends StatelessWidget {
               await SharedPreferences.getInstance();
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 if (sPreference.getString('choosePreference') == 'hiv') {
-                  return BottomNavigationHiv();
+                  return BottomNavigationArthritis();
                 } else if (sPreference.getString('choosePreference') ==
                     'covid') {
                   return BottomNavigationCovid();
                 } else {
-                  return BottomNavigationTB();
+                  return BottomNavigationArthritis();
                 }
               }));
             },
