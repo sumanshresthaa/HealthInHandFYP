@@ -131,6 +131,7 @@ class _LoginPageState extends State<LoginPage> {
               var token = login.token;
               context.read<DataProvider>().token(token);
               print(error);
+              ConstantName.myName = snapshotUserInfo!.docs[0].get("name");
               print(token);
               HelperFunctions.saveTokenSharedPreference(token!);
               HelperFunctions.saveUserLoggedInSharedPreference(true);

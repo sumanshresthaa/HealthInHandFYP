@@ -133,77 +133,80 @@ getThisUserInfo() async {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey.shade50,
-        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            blurRadius: 3,
-            offset: Offset(
-                0, 2), // changes position of shadow
-          ),
-        ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.grey.shade50,
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              blurRadius: 3,
+              offset: Offset(
+                  0, 2), // changes position of shadow
+            ),
+          ],
 
-      ),
+        ),
 
-      child: GestureDetector(
-        onTap: (){
-          context.read<DataProvider>().personNames(widget.userName);
+        child: GestureDetector(
+          onTap: (){
+            context.read<DataProvider>().personNames(widget.userName);
 
-          Navigator.push(context, MaterialPageRoute(builder: (context){
-            return ConversationScreen(widget.chatRoomId);
+            Navigator.push(context, MaterialPageRoute(builder: (context){
+              return ConversationScreen(widget.chatRoomId);
 
-          }));
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
+            }));
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
 
-                  CircleAvatar(
-                    backgroundColor: Color(0xff3FA5DF),
-                    child: Text(userName.substring(0,1).toUpperCase(),),
-                  ),
-                  SizedBox(width: 15,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(userName, style: kStyleHomeWelcome,),
-                      SizedBox(height: 4,),
-                      //sent by just using the first name
-                      Text("${widget.sentBy.substring(0, widget.sentBy.indexOf(' '))}: ${widget.lastMessage}", style: kStyleContent,),
+                    CircleAvatar(
+                      backgroundColor: Color(0xff3FA5DF),
+                      child: Text(userName.substring(0,1).toUpperCase(),),
+                    ),
+                    SizedBox(width: 15,),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(userName, style: kStyleHomeWelcome,),
+                        SizedBox(height: 4,),
+                        //sent by just using the first name
+                        Text("${widget.sentBy.substring(0, widget.sentBy.indexOf(' '))}: ${widget.lastMessage}", style: kStyleContent,),
 
-                    ],
-                  ),
-                ],
-              ),
+                      ],
+                    ),
+                  ],
+                ),
 
-         /*   Container(
-              decoration: BoxDecoration(
-                color: Color(0xff3FA5DF),
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    blurRadius: 3,
-                    offset: Offset(
-                        0, 2), // changes position of shadow
-                  ),
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Message', style: TextStyle(color: Colors.white),),
-              ),
-            )*/
-             // Text(userName.substring(0,1) )
-            ],
+           /*   Container(
+                decoration: BoxDecoration(
+                  color: Color(0xff3FA5DF),
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      blurRadius: 3,
+                      offset: Offset(
+                          0, 2), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('Message', style: TextStyle(color: Colors.white),),
+                ),
+              )*/
+               // Text(userName.substring(0,1) )
+              ],
+            ),
           ),
         ),
       ),

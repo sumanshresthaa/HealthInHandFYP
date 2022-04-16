@@ -70,7 +70,7 @@ class _SignupPageState extends State<SignupPage> {
         showSnackBar(
           context,
           "Success",
-          Colors.red,
+          Colors.green,
           Icons.info,
           "Successfully, created an account",
         );

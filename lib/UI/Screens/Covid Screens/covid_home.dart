@@ -52,6 +52,14 @@ class _CovidHomeState extends State<CovidHome> {
     'Bronchitis',
     'Chest Pain',
   ];
+  var specialityIcon = [
+    'assets/arthritisicon.jpg',
+    'assets/jointicon.png',
+    'assets/muscles.png',
+    'assets/boneicon.png',
+    'assets/muscleicon.png',
+
+  ];
 
   Future getValidationData() async {
     final SharedPreferences sharedPreferences =
@@ -193,7 +201,7 @@ class _CovidHomeState extends State<CovidHome> {
                   child: ListView(
                     shrinkWrap: true,
                     children: [
-                      HomeDesign(imageURL: 'assets/covidhomebook.png', specialities: covidSpecialities, type: 'covid'),
+                      HomeDesign(imageURL: 'assets/covidhomebook.png', specialities: covidSpecialities, specialityIcon: specialityIcon,type: 'covid'),
                       FutureBuilder<DetailsOfCovid>(
                           future: _covidHome,
                           builder: (context, snapshot) {
