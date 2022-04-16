@@ -3,6 +3,7 @@
    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="Health-In Hand"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:icon="@mipmap/ic_launcher">
        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
            <intent-filter>

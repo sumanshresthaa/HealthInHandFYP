@@ -1,3 +1,5 @@
+import 'package:esewa_pnp/esewa.dart';
+import 'package:esewa_pnp/esewa_pnp.dart';
 import 'package:flutter/material.dart';
 import 'package:health_in_hand/Network/NetworkHelper.dart';
 import 'package:health_in_hand/Textstyle/constraints.dart';
@@ -5,9 +7,11 @@ import 'package:health_in_hand/UI/Screens/BookAppointment/receipt.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
 import 'package:intl/intl.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import '../../../ViewModel/changenotifier.dart';
 import '../../Extracted Widgets/bluetextfield.dart';
 import '../../Extracted Widgets/buttons.dart';
+import '../../Extracted Widgets/snackbar.dart';
 
 class BookAppointment extends StatefulWidget {
   const BookAppointment({Key? key}) : super(key: key);
@@ -55,7 +59,8 @@ class _BookAppointmentState extends State<BookAppointment> {
   }
 
 
-
+  ESewaPnp? _esewaPnp;
+  ESewaConfiguration? _configuration;
   int currentStep = 0;
 
   String? doctorName;
@@ -68,6 +73,36 @@ Random random = Random();
 }
 
 
+_initPayment(String product) async {
+  _configuration = ESewaConfiguration(
+    clientID: "JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R",
+    secretKey: "BhwIWQQADhIYSxILExMcAgFXFhcOBwAKBgAXEQ==",
+    environment: ESewaConfiguration.ENVIRONMENT_TEST,
+  );
+  _esewaPnp = ESewaPnp(configuration: _configuration!);
+
+  ESewaPayment _payment =ESewaPayment(amount: 500.0,
+       productName: 'Appointments',
+      productID: patientId.toString(),
+      callBackURL: 'www.esewa.com');
+
+
+  try {
+    final _res = await _esewaPnp?.initPayment(payment: _payment);
+    showSnackBar(
+      context,
+      "Success!",
+      Color(0xff3FA5DF),
+      Icons.info,
+      "${_res?.message}",
+    );
+    // Handle success
+  } on ESewaPaymentException catch(e) {
+    print(e);
+    // Handle error
+  }
+
+}
 
 
   @override
@@ -75,6 +110,7 @@ Random random = Random();
     // TODO: implement initState
     selectRandomDoctor();
     random();
+
     super.initState();
   }
   @override
@@ -114,12 +150,12 @@ Random random = Random();
                   && _selectedPaymentT.isNotEmpty
                                   ) {
                NetworkHelper networkHelper = NetworkHelper();
-               await  networkHelper.createAppointment(name.text, age.text, gender!, dateChose.toString() + " " + selectTime.text, '$doctorName' , '$hospital', problem.text, phone.text, patientId.toString(), "not", token);
+               await  networkHelper.createAppointment(name.text, age.text, gender!, dateChose.toString() + " " + selectTime.text, '$doctorName' , '$hospital', problem.text, phone.text, patientId.toString(), 'verified user of health in hand of id ${patientId.toString()}', token);
                 print('api called');
                Navigator.of(context).pushAndRemoveUntil(
                  MaterialPageRoute(
                    /*            settings: RouteSettings(name: '/1'),*/
-                   builder: (context) =>  Receipt(name:name.text, age:age.text, gender:gender, date:dateChose.toString(), time:selectTime.text, doctorName:doctorName,hospital:hospital,patientId:patientId.toString())
+                   builder: (context) =>  Receipt(name:name.text, age:age.text, gender:gender, date:dateChose.toString(), time:selectTime.text, doctorName:doctorName,hospital:hospital,patientId:patientId.toString(), qr:'verified user of health in hand of id ${patientId.toString()}' )
 
                  ),
                  ModalRoute.withName('/'),
@@ -421,13 +457,14 @@ Random random = Random();
                          );
 
                          if (_selectedPaymentT.contains(1)) {
-                           //_initPayment(_isSelectedPay);
+                           _initPayment(_isSelectedPay);
                          }
                        },
                        isSelected: _isSelected,
                      );
                    }),
              ),
+
 
              SizedBox(height: 50,)
           ],

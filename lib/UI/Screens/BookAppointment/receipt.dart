@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:health_in_hand/UI/BottomNavigations/bottom_navigation_arthritis.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../Textstyle/constraints.dart';
 import '../../Extracted Widgets/buttons.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 class Receipt extends StatelessWidget {
- Receipt({this.name, this.age, this.gender, this.date, this.time, this.doctorName, this.hospital, this.patientId});
- final name, age, gender, date, time, doctorName, hospital, patientId;
+ Receipt({this.name, this.age, this.gender, this.date, this.time, this.doctorName, this.hospital, this.patientId, this.qr});
+ final name, age, gender, date, time, doctorName, hospital, patientId, qr;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,10 +23,11 @@ class Receipt extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
+        child: ListView(
           children: [
             Image.asset('assets/successful_appointment.png', height: 200,),
             SizedBox(height: 20,),
+
             Container(
               decoration: BoxDecoration(
                 color: Color(0xffFFFFFF),
@@ -47,6 +51,7 @@ class Receipt extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
 
                   children: [
+
                     AllDetails(title: 'Name', details: '$name',),
                     AllDetails(title: 'Age', details: '$age',),
                     AllDetails(title: 'Sex', details: '$gender',),
@@ -56,6 +61,35 @@ class Receipt extends StatelessWidget {
 
                     AllDetails(title: 'Doctor Assigned', details: 'Dr. $doctorName',),
                     AllDetails(title: 'Id number', details: '$patientId',),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+
+                        Column(
+                          children: [
+                            Text('Find QR in View Appointment '),
+                            TextButton(child: Text('Download pdf'), onPressed: ()  {
+                              final pdfFile = pw.Document();
+                              pdfFile.addPage(pw.Page(
+                                pageFormat: PdfPageFormat.a4,
+                                build: (pw.Context context){
+                                  return pw.Center(
+                                    child: pw.Text('Hello World'),
+                                  );
+                                }
+                              ));
+
+                            },)
+                          ],
+                        ),
+                        QrImage(
+                          data: qr,
+                          size: 100,
+                          backgroundColor: Colors.white,
+
+                        ),
+                      ],
+                    ),
 
 
 

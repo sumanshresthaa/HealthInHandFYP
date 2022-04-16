@@ -84,11 +84,11 @@ class _ViewAppointmentsState extends State<ViewAppointments> {
             itemBuilder: (context, int index) {
               var initial =  snapshot.data?.appointments?[index];
               var hospitalName = initial?.hospitalName;
-              var address = initial?.optional1;
+              var patientId = initial?.optional1;
               var doctorName = initial?.doctorName;
               var phoneNum = initial?.phone;
               var sex = initial?.gender;
-              var patientId = initial?.optional2;
+              var qr = initial?.optional2;
               var age = initial?.age;
               var name = initial?.name;
               var date = initial?.datetime;
@@ -100,7 +100,7 @@ class _ViewAppointmentsState extends State<ViewAppointments> {
                 child: GestureDetector(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context){
-                      return AppointmentDetails(hospitalName: hospitalName, address: address, doctor: doctorName, phone: phoneNum, sex: sex, patientId: patientId, age: age, name: name, date: date, time: "20:00", );
+                      return AppointmentDetails(hospitalName: hospitalName, qr: qr, doctor: doctorName, phone: phoneNum, sex: sex, patientId: patientId, age: age, name: name, date: date, time: "20:00", );
                     }));
                   },
                   child: Column(
@@ -127,8 +127,6 @@ class _ViewAppointmentsState extends State<ViewAppointments> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('$hospitalName', style: kStyleTime.copyWith( color: Color(0xff324F81), fontSize: 16.sp),),
-                              SizedBox(height: 5,),
-                              IconAndDetails(details: '$address', icon: Icons.location_on_outlined),
                               SizedBox(height: 5,),
                               IconAndDetails(details: 'Dr. $doctorName', icon: Icons.person),
                               SizedBox(height: 5,),
