@@ -103,19 +103,11 @@ class AppointmentDetails extends StatelessWidget {
                                   Column(
                                     children: [
                                       TextButton(child: Text('Download pdf'), onPressed: ()  async {
-                                       /*
-                                        final pdfFile = pw.Document();
-                                        pdfFile.addPage(pw.Page(
-                                            pageFormat: PdfPageFormat.a4,
-                                            build: (pw.Context context){
-                                              return pw.Center(
-                                                child: pw.Text('Hello World'),
-                                              );
-                                            }
-                                        ));*/
-                                        final pdfFile = await PdfApi.generateCenteredText('Sample Text');
 
-                                        PdfApi.openFile(pdfFile);
+                                        //print(hospitalName + name+age+sex+date+time+doctor+patientId+qr);
+                                        final pdfFile = await PdfApi.generateCenteredText(hospitalName,name,age,sex,date.toString(),time.toString(),doctor,patientId,qr);
+
+                                         PdfApi.openFile(pdfFile);
 
                                       },)
                                     ],
