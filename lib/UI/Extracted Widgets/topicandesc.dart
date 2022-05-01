@@ -198,7 +198,7 @@ class _DescriptionContentState extends State<DescriptionContent>
                   SizedBox(
                     height: 16,
                   ),
-                  Row(
+                 /* Row(
                     children: [
                       GestureDetector(
                         onTap: () {
@@ -240,7 +240,7 @@ class _DescriptionContentState extends State<DescriptionContent>
                       ),
 
                     ],
-                  ),
+                  ),*/
                   SizedBox(
                     height: 16,
                   ),

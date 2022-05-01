@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:health_in_hand/UI/Chatroom/chat_room.dart';
 import 'package:health_in_hand/UI/Login/login.dart';
@@ -6,6 +7,7 @@ import 'package:sizer/sizer.dart';
 import '../../FirebaseChat/FirebaseModel/constant_names.dart';
 import '../../FirebaseChat/FirebaseModel/helperfunction.dart';
 import '../../Textstyle/constraints.dart';
+import '../Settings/settings.dart';
 import 'BookAppointment/appointment.dart';
 import 'Doctors/doctor_list.dart';
 class HomeDesignAppBar extends StatefulWidget {
@@ -53,22 +55,18 @@ class _HomeDesignAppBarState extends State<HomeDesignAppBar> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 40,),
+        SizedBox(height: 30,),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(0.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  userIsLoggedIn != null ? Padding(
-                    padding: const EdgeInsets.only(right:10.0),
-                    child: GestureDetector(
-                        onTap: (){
-                          widget.scaffoldKey.currentState!.openDrawer();
-                        },
-                        child: Image.asset('assets/drawer.png', height: 14,)),
-                  ) : Container(),
+                  userIsLoggedIn != null ? IconButton(onPressed:(){
+                    widget.scaffoldKey.currentState!.openDrawer();
+
+                  },icon: Icon(Icons.menu),) : Container(),
                   userIsLoggedIn == null ?   Text('Welcome', style: kStyleHomeWelcome,) : Text('Welcome, ${myName.substring(0, myName.indexOf(' '))}', style: kStyleHomeWelcome),
 
                 ],
@@ -114,7 +112,11 @@ class _HomeDesignAppBarState extends State<HomeDesignAppBar> {
                     ),
                   ),
                   SizedBox(width: 8,),
-                  Icon(Icons.more_vert)
+                  IconButton(icon: Icon(Icons.more_vert), onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context){
+                      return Settings();
+                    }));
+                  },)
                 ],
               )
 
@@ -246,20 +248,71 @@ final specialityIcon;
           height: 150,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
+            child: CarouselSlider.builder(
+             //   scrollDirection: Axis.horizontal,
                 itemCount: specialities.length,
-                shrinkWrap: true,
-                physics: ScrollPhysics(),
-                itemBuilder: (context, int index) {
+               // shrinkWrap: true,
+                //physics: ScrollPhysics(),
+                itemBuilder: (context, int index, int pageViewIndex) {
                   return GestureDetector(
-                    onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context){
-                      return LoginPage(page: ChatRoom(), isFromProfile: false,);
-                    }));},
+                    onTap: (){
+                      showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: Center(child: const Text('Speciality')),
+                         // content: const Text('AlertDialog description'),
+                          actions: <Widget>[
+
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Center(
+                                child: Container(
+                                  height: 200,
+                                  width: 200,
+
+
+                                  decoration: BoxDecoration(
+                                    color: Color(0xffF8F8FA),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0)),
+
+                                  ),
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: 0.0),
+
+                                  //width: 100.0,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceEvenly,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Image.asset(
+                                            '${specialityIcon[index]}', height: 38),
+
+                                      ),
+
+                                      Column(
+                                        children: [
+                                          Text('${specialities[index]}',
+                                            style: kStyleHomeWelcome,),
+                                          Text('1000 doctors',
+                                            style: kStyleMuseoTextContent
+                                                .copyWith(fontSize: 10.sp),),
+
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                      },
 
                     child: Container(
-
-
                       decoration: BoxDecoration(
                         color: Color(0xffF8F8FA),
                         borderRadius: BorderRadius.all(
@@ -302,7 +355,14 @@ final specialityIcon;
                       ),
                     ),
                   );
-                }),
+                }, options:  CarouselOptions(
+              autoPlay: true,
+              //enlargeCenterPage: true,
+              autoPlayInterval: Duration(seconds: 2),
+              viewportFraction: 0.5,
+             aspectRatio: 2.2,
+             // initialPage: 2,
+            ),),
           ),
         ),
         SizedBox(

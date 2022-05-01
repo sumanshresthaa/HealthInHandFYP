@@ -1,9 +1,13 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import '../../ViewModel/changenotifier.dart';
+import '../Chatroom/go_to_chat.dart';
 import '../Extracted Widgets/showdialog.dart';
 import '../LoginPermission/loginpermission.dart';
 import '../Screens/BookAppointment/appointment.dart';
+import '../Screens/BookAppointment/choose_appointment.dart';
 import '../Screens/Covid Screens/covid_home.dart';
 import '../Settings/settings.dart';
 
@@ -15,13 +19,14 @@ class BottomNavigationCovid extends StatefulWidget {
 }
 
 class _BottomNavigationCovidState extends State<BottomNavigationCovid> {
+  late bool englishLanguage = context.watch<DataProvider>().data;
 
   int _currentIndex = 0;
 
   final _children = [
     CovidHome(),
-    BookAppointment(),
-    LoginPermission(),
+    ChooseAppointment(),
+    GoToChat(),
     Settings(),
   ];
 
@@ -80,10 +85,10 @@ class _BottomNavigationCovidState extends State<BottomNavigationCovid> {
               ),
               SalomonBottomBarItem(
                 icon: ImageIcon(
-                  AssetImage('assets/profileicon.png'),
+                  AssetImage('assets/settingicon.png'),
                   size: 22,
                 ),
-                title: Text("Profile"),
+                title: Text(englishLanguage ? "Settings" : "सेटिङ्"),
                 selectedColor: Colors.teal,
               ),
             ],

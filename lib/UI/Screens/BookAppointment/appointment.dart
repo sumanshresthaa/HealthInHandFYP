@@ -3,6 +3,7 @@ import 'package:esewa_pnp/esewa_pnp.dart';
 import 'package:flutter/material.dart';
 import 'package:health_in_hand/Network/NetworkHelper.dart';
 import 'package:health_in_hand/Textstyle/constraints.dart';
+import 'package:health_in_hand/UI/Screens/BookAppointment/choose_appointment.dart';
 import 'package:health_in_hand/UI/Screens/BookAppointment/receipt.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
@@ -121,7 +122,11 @@ _initPayment(String product) async {
         automaticallyImplyLeading: false,
         backgroundColor: Color(0xffFFFFFF),
         title: Text('Book Appointment', style: kStyleHomeWelcome.copyWith(color: Color(0xff324F81)),),
-        leading: Icon(Icons.arrow_back, color: Color(0xff324F81),),
+        leading: GestureDetector(
+          onTap: (){
+            Navigator.pop(context);
+          },
+            child: Icon(Icons.arrow_back, color: Color(0xff324F81),)),
         centerTitle: true,
 
 
@@ -184,7 +189,12 @@ _initPayment(String product) async {
 
             }else{
               setState(() {
-                currentStep += 1;
+                if (_formKey.currentState!.validate()) {
+                  // If the form is valid, display a snackbar. In the real world,
+                  // you'd often call a server or save the information in a database.
+                  currentStep += 1;
+                }
+
               });
             }
 
@@ -195,6 +205,7 @@ _initPayment(String product) async {
             });
           },
           onStepTapped: (step) => setState(() {
+
             currentStep = step;
           }),
           controlsBuilder: (BuildContext context, ControlsDetails details){
@@ -220,7 +231,7 @@ _initPayment(String product) async {
 
     );
   }
-
+  final _formKey = GlobalKey<FormState>();
 
   List<Step> getSteps(){
     return [
@@ -233,14 +244,27 @@ _initPayment(String product) async {
         children: [
           Text('Name', style: kStyleContent.copyWith(color: Color(0xff000000)),),
           SizedBox(height: 10,),
-          TextFormFieldForLoginRegister( label: 'Full Name',
-            imageName: 'assets/formIcons/personIcon.png', textFieldDesignType: 'both', controller: name,),
+          Form(
+            key: _formKey,
+            child: TextFormFieldForLoginRegister( label: 'Full Name',
+              imageName: 'assets/formIcons/personIcon.png', textFieldDesignType: 'both', controller: name, validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },),
+          ),
           SizedBox(height: 20,),
           Text('Address', style: kStyleContent.copyWith(color: Color(0xff000000)),),
           SizedBox(height: 10,),
 
           TextFormFieldForLoginRegister( label: 'Address',
-            imageName: 'assets/formIcons/mapIcon.png', textFieldDesignType: 'both', controller: address),
+            imageName: 'assets/formIcons/mapIcon.png', textFieldDesignType: 'both', controller: address, validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },),
           SizedBox(height: 20,),
           Text('Age', style: kStyleContent.copyWith(color: Color(0xff000000)),),
           SizedBox(height: 10,),
@@ -360,23 +384,40 @@ _initPayment(String product) async {
                 print(dateChose);
               });
             },),
-            DatePickerField(imageName: 'assets/formIcons/clock.png',  textFieldDesignType: 'bottom',controller: selectTime,date: selectTime.text,onPress: ()async{
+
+            DatePickerField(imageName: 'assets/formIcons/clock.png',
+              textFieldDesignType: 'bottom',
+              controller: selectTime,
+              date: selectTime.text,
+              onPress: ()async{
               final TimeOfDay? timeOfDay = await showTimePicker(
                 context: context,
-                initialTime: selectedTime,
+                initialTime: TimeOfDay(hour: 10, minute: 00),
                 initialEntryMode: TimePickerEntryMode.dial,
+                builder: (BuildContext context, Widget? child) {
+                  return MediaQuery(
+                    data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+                    child: child!,
+                  );
+                },
+
               );
+
+            /* print(timeOfDay);
+             print(selectedTime);*/
               if(timeOfDay != null && timeOfDay != selectedTime)
               {
                 setState(() {
-                  DateTime parsedTime = DateFormat.jm()
-                      .parse(timeOfDay .format(context).toString());
-                  String formattedTime =
-                  DateFormat('HH:mm:ss').format(parsedTime);
-                  selectTime.text = formattedTime;
-                  print("select ${formattedTime}");
-                  print(
-                      'sect ${dateChose.toString() + " " + selectTime.text}');
+                  print(timeOfDay);
+               //  selectTime.text =  timeOfDay.format(context);
+                 var time = timeOfDay.format(context);
+                  var timeFormat = time.substring(0, time.indexOf(' '));
+                  selectTime.text = timeFormat;
+
+                  /*var hour = timeOfDay.hour.toString();
+                  var minutes = timeOfDay.minute.toString();
+                  selectTime.text = hour + ":" + minutes;*/
+
 
                 });
 
@@ -384,6 +425,7 @@ _initPayment(String product) async {
 
 
               }
+
             },),
 
            /* TextFormFieldForLoginRegister( label: 'Select your preferable date',

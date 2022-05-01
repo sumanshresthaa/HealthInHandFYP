@@ -31,14 +31,14 @@ class BlueTextFormField extends StatelessWidget {
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
               width: 1,
-                color: Color(0xff0D5D40)
+                color: Color(0xff3FA5DF)
             ),
             borderRadius: BorderRadius.circular(24.0),
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
               width: 1,
-                color: Color(0xff0D5D40)
+                color: Color(0xff3FA5DF)
             ),
             borderRadius: BorderRadius.circular(24.0),
           ),
@@ -52,7 +52,7 @@ class BlueTextFormField extends StatelessWidget {
           focusedErrorBorder: OutlineInputBorder(
             borderSide: BorderSide(
               width: 1,
-                color: Color(0xff0D5D40)
+                color: Colors.red
             ),
             borderRadius: BorderRadius.circular(24.0),
           ),
@@ -67,7 +67,7 @@ class BlueTextFormField extends StatelessWidget {
           prefixIcon: Padding(
             padding: const EdgeInsets.only(left: 20, right: 12),
             child: Image.asset(
-              icon, color: Color(0xff0D5D40),
+              icon, color: Color(0xff3FA5DF),
               width: 22,
             ),
           )),
@@ -80,7 +80,6 @@ class BlueTextFormField extends StatelessWidget {
 class BlueTextFormFieldPN extends StatelessWidget {
   BlueTextFormFieldPN(
       this.hintText, this.icon, this.nameController, this.validator);
-
   final nameController;
   final hintText;
   final icon;
@@ -108,14 +107,14 @@ class BlueTextFormFieldPN extends StatelessWidget {
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
               width: 1,
-                color: Color(0xff0D5D40),
+                color: Color(0xff3FA5DF),
             ),
             borderRadius: BorderRadius.circular(24.0),
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
               width: 1,
-              color: Color(0xff0D5D40),
+              color: Color(0xff3FA5DF),
             ),
             borderRadius: BorderRadius.circular(24.0),
           ),
@@ -129,7 +128,7 @@ class BlueTextFormFieldPN extends StatelessWidget {
           focusedErrorBorder: OutlineInputBorder(
             borderSide: BorderSide(
               width: 1,
-              color: Color(0xff0D5D40),
+              color: Color(0xff3FA5DF),
             ),
             borderRadius: BorderRadius.circular(24.0),
           ),
@@ -144,7 +143,7 @@ class BlueTextFormFieldPN extends StatelessWidget {
           prefixIcon: Padding(
             padding: const EdgeInsets.only(left: 20, right: 12),
             child: Image.asset(
-              icon,color: Color(0xff0D5D40),
+              icon,color: Color(0xff3FA5DF),
               width: 20,
             ),
           )),
@@ -272,12 +271,13 @@ class SearchTextField extends StatelessWidget {
 
 //Text form field is the extracted widget from book appointment
 class TextFormFieldForLoginRegister extends StatelessWidget {
-  const TextFormFieldForLoginRegister({this.label,this.imageName,this.textFieldDesignType, this.textFieldType, this.controller}) : super();
+  const TextFormFieldForLoginRegister({this.label,this.imageName,this.textFieldDesignType, this.textFieldType, this.controller,this.validator}) : super();
   final String? label;
   final String? imageName;
   final String? textFieldDesignType;
   final String? textFieldType;
   final controller;
+  final validator;
 
   @override
   Widget build(BuildContext context) {
@@ -294,6 +294,7 @@ class TextFormFieldForLoginRegister extends StatelessWidget {
           ]
       ),
       child: TextFormField(
+        validator: validator,
         controller: controller,
         keyboardType: textFieldType == "phone" ?TextInputType.number : TextInputType.text,
         cursorColor: Colors.black,

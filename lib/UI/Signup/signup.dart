@@ -70,7 +70,7 @@ class _SignupPageState extends State<SignupPage> {
         showSnackBar(
           context,
           "Success",
-          Colors.green,
+          Colors.blue,
           Icons.info,
           "Successfully, created an account",
         );
@@ -149,7 +149,7 @@ class _SignupPageState extends State<SignupPage> {
                                               fontFamily: 'NutinoSansReg',
                                               fontSize: 20,
                                               fontWeight: FontWeight.w700,
-                                              color: Color(0xff0D5D40)),
+                                              color: Color(0xff3FA5DF)),
                                         ),
                                         SizedBox(height: 5),
                                         Text(
@@ -166,7 +166,7 @@ class _SignupPageState extends State<SignupPage> {
                                     Hero(
                                       tag: 'logo',
                                       child: Image.asset(
-                                        'assets/logo.png',
+                                        'assets/healthinhandlogo.png',
                                         width: 55,
                                       ),
                                     ),
@@ -241,12 +241,12 @@ class _SignupPageState extends State<SignupPage> {
                                     filled: true,
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          width: 1, color: Color(0xff0D5D40)),
+                                          width: 1, color: Color(0xff3FA5DF)),
                                       borderRadius: BorderRadius.circular(24.0),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          width: 1, color: Color(0xff0D5D40)),
+                                          width: 1, color: Color(0xff3FA5DF)),
                                       borderRadius: BorderRadius.circular(24.0),
                                     ),
                                     errorBorder: OutlineInputBorder(
@@ -258,7 +258,7 @@ class _SignupPageState extends State<SignupPage> {
                                     ),
                                     focusedErrorBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          width: 1, color: Color(0xff0D5D40)),
+                                          width: 1, color: Color(0xff3FA5DF)),
                                       borderRadius: BorderRadius.circular(24.0),
                                     ),
                                     hintText: 'Password',
@@ -275,7 +275,7 @@ class _SignupPageState extends State<SignupPage> {
                                           left: 20, right: 12),
                                       child: Image.asset(
                                         'assets/lock.png',
-                                        color: Color(0xff0D5D40),
+                                        color: Color(0xff3FA5DF),
                                         width: 20,
                                       ),
                                     ),
@@ -288,7 +288,7 @@ class _SignupPageState extends State<SignupPage> {
                                           isConfirmHiddenPassword
                                               ? 'assets/eye.png'
                                               : 'assets/eye.png',
-                                          color: Color(0xff0D5D40),
+                                          color: Color(0xff3FA5DF),
                                           width: 20,
                                         ),
                                       ),
@@ -339,12 +339,12 @@ class _SignupPageState extends State<SignupPage> {
                                     filled: true,
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          width: 1, color: Color(0xff0D5D40)),
+                                          width: 1, color: Color(0xff3FA5DF)),
                                       borderRadius: BorderRadius.circular(24.0),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          width: 1, color: Color(0xff0D5D40)),
+                                          width: 1, color: Color(0xff3FA5DF)),
                                       borderRadius: BorderRadius.circular(24.0),
                                     ),
                                     errorBorder: OutlineInputBorder(
@@ -356,7 +356,7 @@ class _SignupPageState extends State<SignupPage> {
                                     ),
                                     focusedErrorBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          width: 1, color: Color(0xff0D5D40)),
+                                          width: 1, color: Color(0xff3FA5DF)),
                                       borderRadius: BorderRadius.circular(24.0),
                                     ),
                                     hintText: 'Confirm Password',
@@ -373,7 +373,7 @@ class _SignupPageState extends State<SignupPage> {
                                           left: 20, right: 12),
                                       child: Image.asset(
                                         'assets/lock.png',
-                                        color: Color(0xff0D5D40),
+                                        color: Color(0xff3FA5DF),
                                         width: 20,
                                       ),
                                     ),
@@ -386,7 +386,7 @@ class _SignupPageState extends State<SignupPage> {
                                           isConfirmHiddenPassword
                                               ? 'assets/eye.png'
                                               : 'assets/eye.png',
-                                          color: Color(0xff0D5D40),
+                                          color: Color(0xff3FA5DF),
                                           width: 20,
                                         ),
                                       ),
@@ -421,7 +421,7 @@ class _SignupPageState extends State<SignupPage> {
                                       showSnackBar(
                                         context,
                                         "Attention",
-                                        Color(0xff0D5D40),
+                                        Color(0xff3FA5DF),
                                         Icons.info,
                                         "You must be connected to the internet.",
                                       );
@@ -434,7 +434,7 @@ class _SignupPageState extends State<SignupPage> {
                                               BorderRadius.circular(20))),
                                   child: Ink(
                                     decoration: BoxDecoration(
-                                        color: Color(0xff0D5D40),
+                                        color: Color(0xff3FA5DF),
                                         borderRadius:
                                             BorderRadius.circular(24)),
                                     child: Container(
@@ -503,7 +503,7 @@ class _SignupPageState extends State<SignupPage> {
                                             fontFamily: 'NutinoSansReg',
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
-                                            color: Color(0xff0D5D40)),
+                                            color: Color(0xff3FA5DF)),
                                       ),
                                     ),
                                   ],

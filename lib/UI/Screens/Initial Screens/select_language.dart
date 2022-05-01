@@ -43,6 +43,14 @@ class _SelectLanguageState extends State<SelectLanguage> {
     });
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _showDialog();
+    super.dispose();
+  }
+
+
   //Function for whether to put back button or not in the select language page
   sharedPreferenceLanguage() async {
     final SharedPreferences sharedPreferences =

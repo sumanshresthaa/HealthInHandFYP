@@ -116,7 +116,7 @@ class LoginButton extends StatelessWidget {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
       child: Ink(
         decoration: BoxDecoration(
-            color: Color(0xff0D5D40), borderRadius: BorderRadius.circular(24)),
+            color: Color(0xff3FA5DF), borderRadius: BorderRadius.circular(24)),
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: 40,

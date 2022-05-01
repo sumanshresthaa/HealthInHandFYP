@@ -3,6 +3,7 @@ import 'package:health_in_hand/Textstyle/constraints.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../ViewModel/changenotifier.dart';
 import '../Extracted Widgets/snackbar.dart';
 
 class Logout extends StatelessWidget {
@@ -78,6 +79,7 @@ class LogoutDialog{
     );
     SharedPreferences preferences = await SharedPreferences.getInstance();
     //await preferences.remove('ISLOGGEDIN');
+
     await preferences.clear();
     Navigator.pop(context);
   }

@@ -18,7 +18,7 @@ class Receipt extends StatelessWidget {
         automaticallyImplyLeading: false,
         backgroundColor: Color(0xffFFFFFF),
         title: Text('Receipt', style: kStyleHomeWelcome.copyWith(color: Color(0xff324F81)),),
-        leading: Icon(Icons.arrow_back, color: Color(0xff324F81),),
+        //leading: Icon(Icons.arrow_back, color: Color(0xff324F81),),
         centerTitle: true,
       ),
       body: Padding(

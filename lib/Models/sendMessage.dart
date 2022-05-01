@@ -32,7 +32,8 @@ class SendMessage{
 
       Navigator.push(context, MaterialPageRoute(
           builder: (context) => ConversationScreen(
-              chatRoomId
+              chatRoomId: chatRoomId,
+            userName: anotherName,
           )
       ));
     }

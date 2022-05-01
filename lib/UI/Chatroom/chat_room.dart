@@ -61,7 +61,11 @@ class _ChatRoomState extends State<ChatRoom> {
         automaticallyImplyLeading: false,
         backgroundColor: Color(0xffFFFFFF),
         title: Text('Chat Room', style: kStyleHomeWelcome.copyWith(color: Color(0xff324F81)),),
-        leading: Icon(Icons.arrow_back, color: Color(0xff324F81),),
+        leading: GestureDetector(
+          onTap: (){
+            Navigator.pop(context);
+          },
+            child: Icon(Icons.arrow_back, color: Color(0xff324F81),)),
         centerTitle: true,
 
 
@@ -152,10 +156,10 @@ getThisUserInfo() async {
 
         child: GestureDetector(
           onTap: (){
-            context.read<DataProvider>().personNames(widget.userName);
+
 
             Navigator.push(context, MaterialPageRoute(builder: (context){
-              return ConversationScreen(widget.chatRoomId);
+              return ConversationScreen(chatRoomId: widget.chatRoomId, userName:userName);
 
             }));
           },

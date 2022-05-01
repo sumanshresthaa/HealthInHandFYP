@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import '../../ViewModel/changenotifier.dart';
 import '../Chatroom/go_to_chat.dart';
 import '../Extracted Widgets/showdialog.dart';
 import '../Screens/Arthritis Screens/athritis_home.dart';
@@ -13,6 +15,7 @@ class BottomNavigationArthritis extends StatefulWidget {
 }
 
 class _BottomNavigationArthritisState extends State<BottomNavigationArthritis> {
+  late bool englishLanguage = context.watch<DataProvider>().data;
   int _currentIndex = 0;
 
   final _children = [
@@ -80,7 +83,7 @@ class _BottomNavigationArthritisState extends State<BottomNavigationArthritis> {
                   AssetImage('assets/settingicon.png'),
                   size: 22,
                 ),
-                title: Text("Settings"),
+                title: Text(englishLanguage ? "Settings" : "सेटिङ्"),
                 selectedColor: Colors.teal,
               ),
             ],

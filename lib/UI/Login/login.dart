@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
 
       Navigator.push(context, MaterialPageRoute(
           builder: (context) => ConversationScreen(
-              chatRoomId
+             chatRoomId: chatRoomId
           )
       ));
     }
@@ -106,8 +106,11 @@ class _LoginPageState extends State<LoginPage> {
   //TODO the shared preference doesn't work when log out and credential doesn't match doesn't work
   signIn() async {
     result = await Connectivity().checkConnectivity();
+    try{
     if (result == ConnectivityResult.mobile ||
         result == ConnectivityResult.wifi) {
+
+
       if (_formKey.currentState!.validate()) {
         final email = emailController.text;
         final password = passwordController.text;
@@ -167,7 +170,11 @@ class _LoginPageState extends State<LoginPage> {
         Icons.info,
         "You must be connected to the internet.",
       );
+    }}
+    catch(e){
+      print(e);
     }
+
   }
 
   //Shows when login is tapped before letting user to another page
@@ -226,7 +233,7 @@ class _LoginPageState extends State<LoginPage> {
                                     child: Hero(
                                       tag: 'logo',
                                       child: Image.asset(
-                                        'assets/logo.png',
+                                        'assets/healthinhandlogo.png',
                                         width: 85,
                                       ),
                                     ),
@@ -239,7 +246,7 @@ class _LoginPageState extends State<LoginPage> {
                                     style: TextStyle(
                                         fontFamily: 'NutinoSansReg',
                                         fontSize: 20,
-                                        color: Color(0xff0D5D40)),
+                                        color: Color(0xff3FA5DF)),
                                   ),
                                   SizedBox(height: 5,),
                                   Text('For exclusive access', style: TextStyle(
@@ -287,12 +294,12 @@ class _LoginPageState extends State<LoginPage> {
                                       filled: true,
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                            width: 1, color: Color(0xff0D5D40)),
+                                            width: 1, color: Color(0xff3FA5DF)),
                                         borderRadius: BorderRadius.circular(24.0),
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                            width: 1, color: Color(0xff0D5D40)),
+                                            width: 1, color: Color(0xff3FA5DF)),
                                         borderRadius: BorderRadius.circular(24.0),
                                       ),
                                       errorBorder: OutlineInputBorder(
@@ -304,7 +311,7 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                            width: 1, color: Color(0xff0D5D40)),
+                                            width: 1, color: Color(0xff3FA5DF)),
                                         borderRadius: BorderRadius.circular(24.0),
                                       ),
                                       hintText: 'Password',
@@ -321,7 +328,7 @@ class _LoginPageState extends State<LoginPage> {
                                             left: 20, right: 12),
                                         child: Image.asset(
                                           'assets/lock.png',
-                                          color: Color(0xff0D5D40),
+                                          color: Color(0xff3FA5DF),
                                           width: 20,
                                         ),
                                       ),
@@ -335,7 +342,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 ? 'assets/eye.png'
                                                 : 'assets/eye.png',
                                             width: 20,
-                                            color: Color(0xff0D5D40),
+                                            color: Color(0xff3FA5DF),
                                           ),
                                         ),
                                       ),
@@ -417,7 +424,7 @@ class _LoginPageState extends State<LoginPage> {
                                               fontFamily: 'NutinoSansReg',
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,
-                                              color: Color(0xff0D5D40)),
+                                              color: Color(0xff3FA5DF)),
                                         ),
                                       ),
                                     ],

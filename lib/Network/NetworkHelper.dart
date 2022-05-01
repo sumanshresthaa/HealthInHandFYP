@@ -17,7 +17,7 @@ class NetworkHelper {
   // 'http://192.168.254.15/cms/public'; //College
 //office:  10.3.5.145
   // home: 192.168.254.15
-  var baseUrl = 'http://192.168.254.7/cms/public';
+  var baseUrl = 'http://192.168.254.15/cms/public';
 
 
   //Very important method called by all the methods in api cache manager class 'api_links.dart'. Return the json Response

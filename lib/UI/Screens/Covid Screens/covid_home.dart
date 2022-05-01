@@ -179,7 +179,7 @@ class _CovidHomeState extends State<CovidHome> {
     'assets/covid_rights.png',
     'assets/covid_faq.png',
   ];
-
+  var scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     if (_covidHome == null) {
@@ -189,12 +189,13 @@ class _CovidHomeState extends State<CovidHome> {
       );
     } else
       return Scaffold(
+        key: scaffoldKey,
         backgroundColor: Color(0xffF3F7FF),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: Column(
             children: [
-              HomeDesignAppBar(),
+              HomeDesignAppBar(scaffoldKey: scaffoldKey),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),

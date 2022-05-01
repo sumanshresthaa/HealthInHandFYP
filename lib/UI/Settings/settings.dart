@@ -75,7 +75,7 @@ class _SettingsContentState extends State<SettingsContent> {
                   return SelectPurpose();
                 }));
               }),
-              selectedPurpose != "covid" ? SettingsList(
+            /*  selectedPurpose != "covid" ? SettingsList(
                   englishLanguage
                       ? 'Change Medication Reminder'
                       : 'औषधी अनुस्मारक परिवर्तन गर्नुहोस्',
@@ -83,7 +83,7 @@ class _SettingsContentState extends State<SettingsContent> {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return selectedPurpose == "hiv" ? HivNotification() : TBNotification();
                 }));
-              }): Container(),
+              }): Container(),*/
               SettingsList(
                 englishLanguage ? 'Update Content' : 'जानकारी अपडेट गर्नुहोस्',
                 Icons.refresh_outlined,
@@ -113,7 +113,7 @@ class _SettingsContentState extends State<SettingsContent> {
                   }
                 },
               ),
-    SettingsList(englishLanguage ? 'Log Out' : 'एपको बारेमा ',
+    SettingsList(englishLanguage ? 'Log Out' : 'लग आउट  ',
             Icons.logout, () async {
           LogoutDialog().showDialogLogout(context);
          }),

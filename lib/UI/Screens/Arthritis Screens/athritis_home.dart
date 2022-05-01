@@ -3,6 +3,7 @@ import 'package:api_cache_manager/utils/cache_manager.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:health_in_hand/UI/Screens/BookAppointment/appointment.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -229,7 +230,7 @@ class _HivHomeState extends State<HivHome> {
             ),
           ),
           body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Column(
                 children: [
                   HomeDesignAppBar(scaffoldKey: scaffoldKey),
